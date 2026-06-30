@@ -14,22 +14,12 @@ export default async function Home() {
     <main className="min-h-screen bg-[#0a0a0a] text-gray-200 font-sans pb-24">
       <header className="py-10 px-6 max-w-4xl mx-auto flex justify-between items-center">
         <h1 className="text-3xl font-serif italic font-bold text-white tracking-tight">SEC Founders</h1>
-        <nav className="hidden md:flex space-x-6 text-sm text-gray-400">
-          <Link href="/" className="text-white">Episodes</Link>
-          <a href="#" className="hover:text-white transition">Books</a>
-          <a href="#" className="hover:text-white transition">Notes</a>
-        </nav>
       </header>
 
       <div className="max-w-3xl mx-auto px-6 mt-16">
         <h2 className="text-3xl md:text-4xl font-bold text-white mb-16 tracking-tight">
           Learn from Sunway's greatest entrepreneurs
         </h2>
-        
-        <div className="flex justify-between items-end border-b border-gray-800 pb-4 mb-8">
-          <h3 className="text-sm font-bold text-white">Latest episodes</h3>
-          <a href="#" className="text-sm text-gray-400 hover:text-white transition">All episodes →</a>
-        </div>
         
         <div className="space-y-1">
           {episodes && episodes.map((episode) => {
