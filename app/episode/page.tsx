@@ -29,10 +29,9 @@ export default async function EpisodePage({ searchParams }: { searchParams: Prom
           SEC<br/>CLUB
         </Link>
         <nav className="hidden md:flex space-x-8 text-[11px] font-bold tracking-[0.2em] uppercase text-black/60">
-          <Link href="/" className="hover:text-black transition-colors">Podcast</Link>
-          <a href="#" className="hover:text-black transition-colors">Sponsors</a>
-          <a href="#" className="hover:text-black transition-colors">Newsletter</a>
-          <a href="#" className="hover:text-black transition-colors">About</a>
+          <Link href="/#about" className="hover:text-black transition-colors">About</Link>
+          <Link href="/episodes" className="text-black transition-colors">Podcast</Link>
+          <Link href="/#register" className="hover:text-black transition-colors">Register</Link>
         </nav>
       </header>
 
@@ -114,7 +113,7 @@ export default async function EpisodePage({ searchParams }: { searchParams: Prom
       {/* Structural Back Navigation Button */}
       <section className="max-w-4xl mx-auto px-6 mt-20">
         <Link
-          href="/"
+          href="/episodes"
           className="inline-block px-8 py-3 border-2 border-black text-black font-black text-xs tracking-[0.2em] uppercase hover:bg-black hover:text-white transition-all duration-300 rounded-none"
         >
           ← Return to Directory
