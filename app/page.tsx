@@ -31,6 +31,7 @@ export default function Home() {
         <Link href="/episodes" className="hover:text-black transition-colors">Podcast</Link>
         <Link href="/sponsors" className="hover:text-black transition-colors">Partners</Link>
         <Link href="/#register" className="hover:text-black transition-colors">Register</Link>
+        <Link href="/news" className="hover:text-black transition-colors">News</Link>
         </nav>
       </header>
 

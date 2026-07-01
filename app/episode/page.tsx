@@ -32,6 +32,7 @@ export default async function EpisodePage({ searchParams }: { searchParams: Prom
           <Link href="/#about" className="hover:text-black transition-colors">About</Link>
           <Link href="/episodes" className="text-black transition-colors">Podcast</Link>
           <Link href="/#register" className="hover:text-black transition-colors">Register</Link>
+          <Link href="/news" className="hover:text-black transition-colors">News</Link>
         </nav>
       </header>
 
