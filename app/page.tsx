@@ -22,14 +22,6 @@ const quotes = [
   }
 ];
 
-/* TODO: replace with real SEC numbers before publishing */
-const stats = [
-  { value: "300+", label: "Active Members" },
-  { value: "12", label: "Partner Brands" },
-  { value: "20+", label: "Sessions Hosted" },
-  { value: "5K+", label: "Community Reach" }
-];
-
 export default function Home() {
 
   useEffect(() => {
@@ -118,6 +110,7 @@ export default function Home() {
           <Link href="/sponsors" className="hover:text-black transition-colors">Partners</Link>
           <Link href="/#register" className="hover:text-black transition-colors">Register</Link>
           <Link href="/news" className="hover:text-black transition-colors">News</Link>
+          <Link href="/events" className="hover:text-black transition-colors">Events</Link>
         </nav>
       </header>
 
@@ -153,18 +146,6 @@ export default function Home() {
               Partner with us →
             </Link>
           </div>
-        </div>
-      </section>
-
-      {/* STATS BAND */}
-      <section className="w-full border-y border-black/10 bg-white">
-        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-black/10">
-          {stats.map((stat, i) => (
-            <div key={i} className="scroll-reveal px-6 md:px-10 py-14 md:py-20 flex flex-col gap-3">
-              <span className="font-serif text-5xl md:text-7xl leading-none tracking-tight">{stat.value}</span>
-              <span className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-black/50">{stat.label}</span>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -354,10 +335,10 @@ export default function Home() {
 
             <div className="md:col-span-3 flex flex-col gap-5">
               <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">Connect</span>
-              <a href="#" className="text-white/70 hover:text-white transition-colors">Instagram</a>
-              <a href="#" className="text-white/70 hover:text-white transition-colors">LinkedIn</a>
-              <a href="#" className="text-white/70 hover:text-white transition-colors">TikTok</a>
-              <a href="mailto:hello@secclub.org" className="text-white/70 hover:text-white transition-colors">Email</a>
+              <a href="https://www.instagram.com/sunway_sec" className="text-white/70 hover:text-white transition-colors">Instagram</a>
+              <a href="https://www.linkedin.com/company/sunway-entrepreneurs-club/" className="text-white/70 hover:text-white transition-colors">LinkedIn</a>
+              <a href="https://www.facebook.com/sunway.sec/" className="text-white/70 hover:text-white transition-colors">Facebook</a>
+              <a href="mailto:sunwayentrepreneursclub@gmail.com " className="text-white/70 hover:text-white transition-colors">sunwayentrepreneursclub@gmail.com</a>
             </div>
           </div>
 

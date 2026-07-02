@@ -24,6 +24,7 @@ export default async function EpisodesDirectory() {
         <Link href="/sponsors" className="hover:text-black transition-colors">Partners</Link>
         <Link href="/#register" className="hover:text-black transition-colors">Register</Link>
         <Link href="/news" className="hover:text-black transition-colors">News</Link>
+        <Link href="/events" className="hover:text-black transition-colors">Events</Link>
         </nav>
       </header>
 
