@@ -1,8 +1,13 @@
-// app/page.tsx
-import Link from 'next/link';
+"use client";
 
-// You can easily add or edit your quotes here!
+import Link from 'next/link';
+import { useEffect } from 'react';
+
 const quotes = [
+  {
+    text: "You didn’t even have to be smart. You had to have good follow-up. If you followed up, it kind of gave that extra point on the smart side of the scale.",
+    author: "Michael Ovitz"
+  },
   {
     text: "Imagine how hard it is to start your business, then multiply that by infinity. And if you’re still committed to do it, and you have the stamina to stick with that, then you’ll be successful.",
     author: "Todd Graves"
@@ -17,130 +22,352 @@ const quotes = [
   }
 ];
 
+/* TODO: replace with real SEC numbers before publishing */
+const stats = [
+  { value: "300+", label: "Active Members" },
+  { value: "12", label: "Partner Brands" },
+  { value: "20+", label: "Sessions Hosted" },
+  { value: "5K+", label: "Community Reach" }
+];
+
 export default function Home() {
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.scroll-reveal').forEach((el) => {
+      observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <main className="bg-white text-black font-sans min-h-screen selection:bg-black selection:text-white antialiased">
-      
-      {/* Brutalist Navbar */}
-      <header className="absolute top-0 w-full py-8 px-6 md:px-12 flex justify-between items-center z-50 border-b border-black/5">
+
+      <style jsx global>{`
+        @keyframes clipUp {
+          0% { transform: translateY(110%); opacity: 0; }
+          100% { transform: translateY(0); opacity: 1; }
+        }
+        .animate-clip-up {
+          animation: clipUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .scroll-reveal {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .scroll-reveal.is-visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .btn-oxblood {
+          position: relative;
+          overflow: hidden;
+          z-index: 1;
+        }
+        .btn-oxblood::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: #4a0404;
+          z-index: -1;
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-oxblood:hover::before {
+          transform: scaleX(1);
+        }
+
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+          display: flex;
+          width: max-content;
+          animation: marquee 40s linear infinite;
+        }
+
+        @keyframes bounceCue {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(4px); }
+        }
+        .animate-cue { animation: bounceCue 1.6s ease-in-out infinite; }
+      `}</style>
+
+      {/* Navbar */}
+      <header className="absolute top-0 w-full py-8 px-6 md:px-12 flex justify-between items-center z-50">
         <Link href="/" className="font-black text-2xl tracking-tighter leading-none text-black">
           SEC<br/>CLUB
         </Link>
         <nav className="hidden md:flex space-x-12 text-[11px] font-black tracking-[0.2em] uppercase text-black/50">
-        <Link href="/#about" className="hover:text-black transition-colors">About</Link>
-        <Link href="/episodes" className="hover:text-black transition-colors">Podcast</Link>
-        <Link href="/sponsors" className="hover:text-black transition-colors">Partners</Link>
-        <Link href="/#register" className="hover:text-black transition-colors">Register</Link>
-        <Link href="/news" className="hover:text-black transition-colors">News</Link>
+          <Link href="/#about" className="hover:text-black transition-colors">About</Link>
+          <Link href="/episodes" className="hover:text-black transition-colors">Podcast</Link>
+          <Link href="/sponsors" className="hover:text-black transition-colors">Partners</Link>
+          <Link href="/#register" className="hover:text-black transition-colors">Register</Link>
+          <Link href="/news" className="hover:text-black transition-colors">News</Link>
         </nav>
       </header>
 
-      {/* Massive Hero Section */}
-      <section className="relative w-full h-[90vh] flex flex-col justify-center items-center overflow-hidden pt-20 border-b-2 border-black">
-        <div className="relative z-10 flex flex-col items-center text-center w-full px-4">
-          <p className="text-[10px] md:text-xs font-black tracking-[0.3em] uppercase mb-4 text-black/40">
-            Conversations with Sunway's greatest living entrepreneurs
-          </p>
-          
-          <h1 className="text-[11vw] lg:text-[7.5rem] font-black tracking-tighter leading-[0.85] text-black uppercase select-none">
-            SUNWAY<br/>ENTREPRENEURS<br/>CLUB
-          </h1>
-        </div>
+      {/* HERO SECTION — centered wordmark, David Senra style, no photo */}
+      <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-6 md:px-12 pt-32 pb-24 overflow-hidden">
 
-        {/* Subscribe CTA */}
-        <div className="absolute bottom-12 right-6 md:right-12 z-30 hidden md:block text-right">
-          <p className="text-xs font-bold uppercase tracking-wider mb-2 text-black/50">Join the network</p>
-          <a href="#register" className="inline-block bg-black text-white px-8 py-3 rounded-full font-bold text-xs uppercase tracking-widest hover:bg-black/80 transition-all shadow-md">
-            Register now
-          </a>
-        </div>
-      </section>
-
-      {/* Brutalist About Us Section */}
-      <section id="about" className="max-w-5xl mx-auto px-6 py-32 border-b border-black/10 scroll-mt-10">
-        <h2 className="text-[11px] font-black tracking-[0.25em] uppercase text-black/40 mb-8 border-b-2 border-black pb-2">
-          About The Club
-        </h2>
-        
-        <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9] text-black mb-8">
-          Fostering the next generation of founders.
-        </h3>
-        
-        <p className="text-xl md:text-2xl text-black/70 font-medium leading-relaxed max-w-3xl mb-12">
-          The Sunway Entrepreneurs Club (SEC) serves as the primary hub for student-led innovation, mentorship, and collaborative ventures. We bridge the gap between academic theory and real-world execution by providing a network of ambitious founders.
+        {/* Tagline — the descriptor line above the name */}
+        <p className="font-mono text-[10px] md:text-sm uppercase tracking-[0.25em] text-black/50 mb-8 md:mb-10">
+          Where Sunway’s builders become operators
         </p>
-        
-        <Link href="/episodes" className="inline-block border-2 border-black text-black px-8 py-4 font-black text-xs uppercase tracking-widest hover:bg-black hover:text-white transition-all">
-          Explore The Podcasts
-        </Link>
+
+        {/* Giant stacked wordmark */}
+        <h1 className="font-black uppercase tracking-tighter leading-[0.82] text-black text-[clamp(2.25rem,11vw,11.5rem)] max-w-[96vw]">
+          {["Sunway", "Entrepreneurs", "Club"].map((word, i) => (
+            <span key={i} className="block overflow-hidden pb-1">
+              <span className="block animate-clip-up" style={{ animationDelay: `${i * 0.12}s` }}>
+                {word}
+              </span>
+            </span>
+          ))}
+        </h1>
+
+        {/* CTA cluster — mirrors Senra's line + button */}
+        <div className="mt-14 md:mt-16 flex flex-col items-center gap-7">
+          <p className="text-base md:text-lg font-medium text-black/50">
+            Open to every Sunway student.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-4">
+            <a href="#register" className="inline-block bg-black text-white px-12 py-5 font-black text-xs uppercase tracking-[0.2em] hover:bg-black/80 transition-all shadow-xl">
+              Register
+            </a>
+            <Link href="/sponsors" className="inline-block px-6 py-5 text-xs font-black uppercase tracking-[0.2em] text-black/50 hover:text-black transition-colors">
+              Partner with us →
+            </Link>
+          </div>
+        </div>
       </section>
 
-      {/* NEW: Episode Quotes Slideshow */}
-      <section className="w-full py-32 border-b border-black/10 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 mb-16">
-          {/* Stacked Brutalist Title */}
-          <h2 className="text-2xl md:text-4xl font-black tracking-tighter uppercase text-black leading-none mb-1">
-            Episode
-          </h2>
-          <h3 className="text-7xl md:text-[9rem] font-black tracking-tighter uppercase text-black leading-[0.8]">
-            Quotes
-          </h3>
-        </div>
-
-        {/* The Scrolling Slider Container */}
-        {/* 'snap-x' and 'overflow-x-auto' create the slideshow effect */}
-        <div 
-          className="flex overflow-x-auto snap-x snap-mandatory gap-8 px-6 md:px-12 pb-12"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} // Hides scrollbar on Firefox/IE
-        >
-          {/* Custom style block to hide scrollbar on Chrome/Safari */}
-          <style>{`
-            div::-webkit-scrollbar { display: none; }
-          `}</style>
-
-          {quotes.map((quote, index) => (
-            <div 
-              key={index} 
-              className="snap-center shrink-0 w-[85vw] md:w-[600px] border-l border-black/20 pl-8 md:pl-12 flex flex-col justify-center"
-            >
-              <p className="text-2xl md:text-3xl text-black font-medium leading-snug mb-8">
-                "{quote.text}"
-              </p>
-              <div className="flex items-center text-[11px] font-bold uppercase tracking-[0.2em] text-black/60">
-                — {quote.author} 
-                <svg className="w-4 h-4 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-              </div>
+      {/* STATS BAND */}
+      <section className="w-full border-y border-black/10 bg-white">
+        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-black/10">
+          {stats.map((stat, i) => (
+            <div key={i} className="scroll-reveal px-6 md:px-10 py-14 md:py-20 flex flex-col gap-3">
+              <span className="font-serif text-5xl md:text-7xl leading-none tracking-tight">{stat.value}</span>
+              <span className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-black/50">{stat.label}</span>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Stark Member Registration Section */}
-      <section id="register" className="max-w-5xl mx-auto px-6 py-32 scroll-mt-10">
-        <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-black mb-6">
-            Join The Network
-          </h2>
-          <p className="text-lg md:text-xl text-black/60 font-medium max-w-2xl mx-auto">
-            Connect with ambitious student entrepreneurs. Complete the registration below to access our upcoming workshops and founder mixers.
-          </p>
-        </div>
+      {/* ABOUT SECTION (Dark Mode) */}
+      <section id="about" className="w-full bg-black text-white px-6 md:px-12 py-24 md:py-32 selection:bg-white selection:text-black">
+        <div className="max-w-[1600px] mx-auto">
 
-        <div className="w-full bg-gray-50 border-2 border-black p-2 md:p-4">
-          <iframe 
-            src="https://docs.google.com/forms/d/e/1FAIpQLSezVZpDlnnR1OT4z2wVl4s6lzZUPq9nj69xqHpwzTHpgBwy5A/viewform?embedded=true"
-            width="100%" 
-            height="800" 
-            frameBorder="0" 
-            marginHeight={0} 
-            marginWidth={0}
-            className="grayscale"
-          >
-            Loading…
-          </iframe>
+          {/* Editorial two-column: label anchor left, prose right */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+            <div className="md:col-span-4">
+              <div className="md:sticky md:top-24 flex flex-col gap-8">
+                <h2 className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-white/50 scroll-reveal">
+                  About The Club
+                </h2>
+                <p className="font-serif text-4xl md:text-5xl leading-[1.05] tracking-tight scroll-reveal">
+                  A home for the people who build.
+                </p>
+              </div>
+            </div>
+
+            <div className="md:col-span-8 flex flex-col gap-8">
+              <p className="text-lg md:text-2xl lg:text-3xl font-medium leading-relaxed tracking-tight scroll-reveal">
+                Sunway has no shortage of ambition. What it lacked was a home for the people who build. SEC is that home — where ideas meet the mentorship, network, and access to make them real, and where students stop waiting for permission to start. We’re building the institution its members will be proud they came from.
+              </p>
+              <p className="text-lg md:text-2xl lg:text-3xl font-medium leading-relaxed tracking-tight text-white/70 scroll-reveal">
+                To build a community of aspiring entrepreneurs and innovators, fostering real-world skills, professional connections, and opportunities beyond campus to help members turn their ideas into reality and become future business leaders.
+              </p>
+              <div className="scroll-reveal mt-2">
+                <Link
+                  href="/sponsors"
+                  className="inline-block rounded-full border border-white/40 px-8 py-3 text-sm font-medium hover:bg-white hover:text-black hover:border-white transition-all duration-300"
+                >
+                  Learn more about how we work
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* WHAT WE DO - GRID */}
+          <div className="w-full mt-32 md:mt-48 scroll-reveal">
+            <h2 className="text-[5rem] md:text-[8rem] lg:text-[11rem] font-black uppercase tracking-tighter leading-[0.8] text-white mb-16 md:mb-24">
+              WHAT<br/>WE DO?
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 text-left">
+              {[
+                { title: "Develop Innovation & Leadership", desc: "Practical skills and entrepreneurial thinking through training, mentorship, and hands-on projects." },
+                { title: "Build An Active Network", desc: "Connecting students, alumni, business leaders, and sponsors through Sunway Nexus by SEC." },
+                { title: "Empower Through Opportunities", desc: "Internship and working-experience pathways within Sunway Group and industry partners." },
+                { title: "Strengthen Brand & Community", desc: "Positioning SEC as a recognised entrepreneurship ecosystem." },
+                { title: "Broker Cross-Campus Partnerships", desc: "Connecting partner clubs to relevant sponsors and brands." }
+              ].map((pillar, index) => (
+                <div key={index} className="bg-white text-black p-8 flex flex-col h-full hover:scale-[1.02] transition-transform duration-300">
+                  <div className="font-mono text-sm text-black/40 font-bold mb-8">0{index + 1}</div>
+                  <h4 className="font-black text-2xl uppercase tracking-tighter leading-[0.9] mb-4">{pillar.title}</h4>
+                  <p className="font-medium text-black/80 text-sm leading-relaxed mt-auto">{pillar.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
-      
+
+      {/* AUTO-SLIDING QUOTES SECTION */}
+      <section className="w-full py-32 md:py-48 bg-white overflow-hidden border-t border-black/10">
+        <div className="px-6 md:px-12 mb-24 md:mb-32">
+          <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-black leading-none mb-2">
+            Words We
+          </h2>
+          <h3 className="text-[7rem] md:text-[12rem] lg:text-[14rem] font-black tracking-tighter uppercase text-black leading-[0.75]">
+            Build By
+          </h3>
+        </div>
+
+        <div className="relative w-full overflow-hidden flex items-center">
+          <div className="animate-marquee gap-16 px-6 hover:[animation-play-state:paused] cursor-grab active:cursor-grabbing">
+            {[...quotes, ...quotes].map((quote, index) => (
+              <div
+                key={index}
+                className="shrink-0 w-[85vw] md:w-[700px] border-l-[1.5px] border-black/15 pl-8 md:pl-12 flex flex-col justify-between py-2"
+              >
+                <p className="text-2xl md:text-3xl lg:text-4xl text-black font-medium leading-[1.3] tracking-tight mb-12">
+                  &ldquo;{quote.text}&rdquo;
+                </p>
+                <p className="text-sm text-black/90 font-medium flex items-center">
+                  — {quote.author}
+                  <span className="ml-3 text-black/40">→</span>
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PARTNERS / SUNWAY NEXUS BAND (opens the dark closing sequence) */}
+      <section className="w-full bg-black text-white px-6 md:px-12 py-24 md:py-32 selection:bg-white selection:text-black">
+        <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-start">
+          <div className="md:col-span-7 flex flex-col gap-8">
+            <h2 className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-white/50 scroll-reveal">
+              Sunway Nexus by SEC
+            </h2>
+            <p className="font-serif text-4xl md:text-6xl lg:text-7xl leading-[1.02] tracking-tight scroll-reveal">
+              Reach the builders before anyone else does.
+            </p>
+            <p className="text-lg md:text-xl font-medium text-white/60 leading-relaxed max-w-2xl scroll-reveal">
+              Partner brands plug directly into Sunway’s most driven student operators — through sessions, sponsorships, and cross-campus activations.
+            </p>
+            <div className="scroll-reveal">
+              <Link
+                href="/sponsors"
+                className="btn-oxblood inline-block border border-white/30 text-white px-12 py-5 font-mono text-xs uppercase tracking-[0.2em] hover:border-white transition-colors"
+              >
+                See the Sponsor Guide
+              </Link>
+            </div>
+          </div>
+
+          <div className="md:col-span-5 md:pt-16">
+            <ul className="flex flex-col divide-y divide-white/10 scroll-reveal">
+              {[
+                "Direct access to an engaged member base",
+                "Branded sessions & workshops",
+                "Cross-campus partnership brokering",
+                "Year-round presence, not one-off events"
+              ].map((item, i) => (
+                <li key={i} className="flex items-baseline gap-6 py-5">
+                  <span className="font-mono text-xs text-white/40">0{i + 1}</span>
+                  <span className="text-base md:text-lg font-medium text-white/90 leading-snug">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* INK BAND REGISTRATION SECTION */}
+      <section id="register" className="w-full bg-[#050505] text-white py-32 md:py-48 border-t border-white/10 selection:bg-white selection:text-black">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 flex flex-col items-center text-center">
+
+          <h2 className="font-serif text-4xl md:text-6xl leading-[1.1] mb-12 text-white">
+            Join the network. Register through Sunway Nexus by SEC.
+          </h2>
+
+          <a
+            href="#register"
+            className="btn-oxblood inline-block border border-white/30 text-white px-12 py-5 font-mono text-xs uppercase tracking-[0.2em] mb-24 hover:border-white transition-colors"
+          >
+            Access The Form
+          </a>
+
+          <div className="w-full bg-white/5 border border-white/10 p-2 md:p-6 rounded-sm shadow-2xl">
+            <iframe
+              src="https://docs.google.com/forms/d/e/1FAIpQLSezVZpDlnnR1OT4z2wVl4s6lzZUPq9nj69xqHpwzTHpgBwy5A/viewform?embedded=true"
+              width="100%"
+              height="800"
+              frameBorder="0"
+              marginHeight={0}
+              marginWidth={0}
+              className="grayscale opacity-90 mix-blend-screen"
+            >
+              Loading Form…
+            </iframe>
+          </div>
+
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="w-full bg-black text-white px-6 md:px-12 pt-24 pb-12 border-t border-white/10 selection:bg-white selection:text-black">
+        <div className="max-w-[1600px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 pb-20">
+            <div className="md:col-span-6 flex flex-col gap-6">
+              <span className="font-black text-4xl md:text-5xl tracking-tighter leading-none">SEC CLUB</span>
+              <p className="text-white/50 text-base md:text-lg font-medium max-w-md leading-relaxed">
+                A campus entrepreneurship ecosystem at Sunway University. Where builders become operators.
+              </p>
+            </div>
+
+            <div className="md:col-span-3 flex flex-col gap-5">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">Explore</span>
+              <Link href="/#about" className="text-white/70 hover:text-white transition-colors">About</Link>
+              <Link href="/#register" className="text-white/70 hover:text-white transition-colors">Register</Link>
+              <Link href="/sponsors" className="text-white/70 hover:text-white transition-colors">Partners</Link>
+              <Link href="/news" className="text-white/70 hover:text-white transition-colors">News</Link>
+            </div>
+
+            <div className="md:col-span-3 flex flex-col gap-5">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">Connect</span>
+              <a href="#" className="text-white/70 hover:text-white transition-colors">Instagram</a>
+              <a href="#" className="text-white/70 hover:text-white transition-colors">LinkedIn</a>
+              <a href="#" className="text-white/70 hover:text-white transition-colors">TikTok</a>
+              <a href="mailto:hello@secclub.org" className="text-white/70 hover:text-white transition-colors">Email</a>
+            </div>
+          </div>
+
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pt-8 border-t border-white/10 font-mono text-[10px] md:text-xs uppercase tracking-widest text-white/40">
+            <span>© 2026 Sunway Entrepreneurs Club</span>
+            <span>Sunway University · Malaysia</span>
+          </div>
+        </div>
+      </footer>
+
     </main>
   );
 }

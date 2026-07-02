@@ -87,7 +87,7 @@ export default function SponsorsGuide() {
               <p className="text-sm font-bold text-black/50 uppercase tracking-widest">Maximum Integration</p>
             </div>
             <div className="lg:w-1/2 text-lg font-medium text-black/80">
-              Total integration into the SEC brand. Premier logo placement everywhere, exclusive networking dinners, and first rights to all talent data.
+              Total integration into the SEC brand. Premier logo placement everywhere, exclusive networking dinners.
             </div>
           </div>
         </div>
@@ -103,7 +103,7 @@ export default function SponsorsGuide() {
             Reach out to our partnerships team to receive our full pitch deck and discuss custom integration opportunities.
           </p>
           <a 
-            href="mailto:partnerships@sunwayentrepreneurs.com" 
+            href="mailto:sunwayentrepreneursclub@gmail.com " 
             className="inline-block bg-white text-black px-10 py-5 font-black text-xs uppercase tracking-[0.2em] hover:bg-gray-200 transition-all"
           >
             Contact Partnerships
