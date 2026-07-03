@@ -1,5 +1,5 @@
 // app/events/page.tsx
-import Link from 'next/link';
+import Nav from '@/components/Nav';
 
 export const metadata = {
   title: 'Events — SEC Club',
@@ -35,22 +35,8 @@ const FORMATS = 'SEC Reads · Corporate Visit · AI Tools · Founder Talk';
 
 export default function EventsPage() {
   return (
-    <main className="bg-white text-black font-sans min-h-screen selection:bg-black selection:text-white antialiased">
-
-      {/* Navbar */}
-      <header className="w-full py-8 px-6 md:px-12 flex justify-between items-center border-b border-black/5">
-        <Link href="/" className="font-black text-2xl tracking-tighter leading-none text-black">
-          SEC<br />CLUB
-        </Link>
-        <nav className="hidden md:flex space-x-10 text-[11px] font-black tracking-[0.2em] uppercase text-black/50">
-          <Link href="/#about" className="hover:text-black transition-colors">About</Link>
-          <Link href="/episodes" className="hover:text-black transition-colors">Podcast</Link>
-          <Link href="/events" className="text-black transition-colors">Events</Link>
-          <Link href="/sponsors" className="hover:text-black transition-colors">Partners</Link>
-          <Link href="/#register" className="hover:text-black transition-colors">Register</Link>
-          <Link href="/news" className="hover:text-black transition-colors">News</Link>
-        </nav>
-      </header>
+      <main className="bg-white text-black font-sans min-h-screen selection:bg-black selection:text-white antialiased pb-24">
+        <Nav />      
 
       {/* 1 · UPCOMING — the headline. Hidden entirely until a speaker is booked. */}
       {upcoming && (

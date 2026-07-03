@@ -2,6 +2,7 @@
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import Nav from '@/components/Nav';
 
 export const revalidate = 0;
 
@@ -21,21 +22,8 @@ export default async function EpisodePage({ searchParams }: { searchParams: Prom
   const formattedDate = dateObj.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
   return (
-    <main className="min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white pb-32 antialiased">
-
-      {/* Navbar */}
-      <header className="w-full py-8 px-6 md:px-12 flex justify-between items-center border-b border-black/5 mb-12">
-        <Link href="/" className="font-black text-2xl tracking-tighter leading-none hover:opacity-60 transition-opacity text-black">
-          SEC<br/>CLUB
-        </Link>
-        <nav className="hidden md:flex space-x-8 text-[11px] font-bold tracking-[0.2em] uppercase text-black/60">
-          <Link href="/#about" className="hover:text-black transition-colors">About</Link>
-          <Link href="/episodes" className="text-black transition-colors">Podcast</Link>
-          <Link href="/#register" className="hover:text-black transition-colors">Register</Link>
-          <Link href="/news" className="hover:text-black transition-colors">News</Link>
-          <Link href="/events" className="hover:text-black transition-colors">Events</Link>
-        </nav>
-      </header>
+      <main className="bg-white text-black font-sans min-h-screen selection:bg-black selection:text-white antialiased pb-24">
+        <Nav />
 
       {/* Title Header Block */}
       <section className="max-w-4xl mx-auto px-6 mb-12">

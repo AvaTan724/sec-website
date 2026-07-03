@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import Link from 'next/link';
+import Nav from '@/components/Nav';
 
 
 // --- TYPES ---
@@ -185,6 +186,7 @@ function RegionRows({ data }: { data: RegionBlock[] }) {
 export default function BusinessNewsPage() {
   return (
     <div className="min-h-screen bg-white text-black font-sans">
+      <Nav />
 
       {/* Top Nav (matches this page's style; same links as home) */}
       <header className="border-b-2 border-black">

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect } from 'react';
+import Nav from '@/components/Nav';
 
 const quotes = [
   {
@@ -99,20 +100,7 @@ export default function Home() {
         .animate-cue { animation: bounceCue 1.6s ease-in-out infinite; }
       `}</style>
 
-      {/* Navbar */}
-      <header className="absolute top-0 w-full py-8 px-6 md:px-12 flex justify-between items-center z-50">
-        <Link href="/" className="font-black text-2xl tracking-tighter leading-none text-black">
-          SEC<br/>CLUB
-        </Link>
-        <nav className="hidden md:flex space-x-12 text-[11px] font-black tracking-[0.2em] uppercase text-black/50">
-          <Link href="/#about" className="hover:text-black transition-colors">About</Link>
-          <Link href="/episodes" className="hover:text-black transition-colors">Podcast</Link>
-          <Link href="/sponsors" className="hover:text-black transition-colors">Partners</Link>
-          <Link href="/#register" className="hover:text-black transition-colors">Register</Link>
-          <Link href="/news" className="hover:text-black transition-colors">News</Link>
-          <Link href="/events" className="hover:text-black transition-colors">Events</Link>
-        </nav>
-      </header>
+      <Nav variant="overlay" />
 
       {/* HERO SECTION — centered wordmark, David Senra style, no photo */}
       <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-6 md:px-12 pt-32 pb-24 overflow-hidden">

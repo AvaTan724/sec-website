@@ -1,5 +1,5 @@
 // app/sponsors/page.tsx
-import Link from 'next/link';
+import Nav from '@/components/Nav';
 
 // Add partners here once they're real: { name, logo, url? }.
 // Empty array = the logo grid stays hidden. No placeholder boxes.
@@ -8,22 +8,7 @@ const partners: { name: string; logo: string; url?: string }[] = [];
 export default function SponsorsGuide() {
   return (
     <main className="bg-white text-black font-sans min-h-screen selection:bg-black selection:text-white antialiased flex flex-col">
-
-      {/* Navbar (unchanged) */}
-      <header className="w-full py-8 px-6 md:px-12 flex justify-between items-center border-b border-black/10">
-        <Link href="/" className="font-black text-2xl tracking-tighter leading-none text-black">
-          SEC<br />CLUB
-        </Link>
-        <nav className="hidden md:flex space-x-12 text-[11px] font-black tracking-[0.2em] uppercase text-black/50">
-          <Link href="/#about" className="hover:text-black transition-colors">About</Link>
-          <Link href="/episodes" className="hover:text-black transition-colors">Podcast</Link>
-          <Link href="/sponsors" className="hover:text-black transition-colors">Partners</Link>
-          <Link href="/#register" className="hover:text-black transition-colors">Register</Link>
-          <Link href="/news" className="hover:text-black transition-colors">News</Link>
-          <Link href="/events" className="hover:text-black transition-colors">Events</Link>
-        </nav>
-      </header>
-
+      <Nav />
       {/* One line · (logos) · one button — lots of air */}
       <section className="flex-1 flex flex-col items-center justify-center text-center px-6 md:px-12 py-32 md:py-48">
 
