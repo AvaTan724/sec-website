@@ -2,7 +2,7 @@
 import Nav from '@/components/Nav';
 
 export const metadata = {
-  title: 'Team & Advisors — SEC Club',
+  title: 'Team & Advisors — SEC',
 };
 
 // --- DATA ---------------------------------------------------------------
@@ -11,9 +11,9 @@ const orgChart: string | null = null; // e.g. "/team/org-chart.png"
 
 type Person = {
   name: string;
-  role: string;   // team: role · advisors: title
+  role: string;   // team: role · advisors: title · alumni: what they did/do now
   line?: string;  // one line
-  photo?: string; // e.g. "/team/name.jpg" — omit and the card shows initials, same crop
+  photo?: string; // e.g. "/team/name.jpg" — omit and the card shows initials
   tag?: string;   // e.g. "Principal Advisor"
 };
 
@@ -22,11 +22,15 @@ const team: Person[] = [
   // { name: "Amadeus …", role: "President", line: "…", photo: "/team/amadeus.jpg" },
 ];
 
-// Advisors — photo, name, title, one line.
-// Fill Dr. Janitha's title / line / photo before launch — don't ship invented copy about a real person.
+// Advisors — fill Dr. Janitha's real title / line / photo before launch.
+// Don't ship invented copy about a real person.
 const advisors: Person[] = [
   { name: 'Dr. Janitha Nadarajah', role: '', line: '', photo: '', tag: 'Principal Advisor' },
 ];
+
+// Alumni — populate from next term onward. Same card, same crop.
+// role = what they went on to do; that's the proof this page exists to show.
+const alumni: Person[] = [];
 // -----------------------------------------------------------------------
 
 function initials(name: string) {
@@ -40,8 +44,7 @@ function initials(name: string) {
     .toUpperCase();
 }
 
-// Every photo goes through this — identical crop, duotone, and grey→warm hover.
-// This single component is what enforces the "one hand" uniformity.
+// Every photo goes through this — identical crop, duotone, grey→warm hover.
 function PersonCard({ p }: { p: Person }) {
   return (
     <div className="group">
@@ -78,19 +81,33 @@ function PersonCard({ p }: { p: Person }) {
   );
 }
 
+function PeopleSection({ title, people }: { title: string; people: Person[] }) {
+  if (people.length === 0) return null;
+  return (
+    <section className="max-w-[1500px] mx-auto px-6 md:px-12 mb-24">
+      <h2 className="font-mono text-[11px] font-black tracking-[0.25em] uppercase text-black/40 mb-10 border-b border-black/10 pb-3">
+        {title}
+      </h2>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-14">
+        {people.map((p, i) => (
+          <PersonCard key={i} p={p} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function TeamPage() {
   return (
     <main className="bg-white text-black font-sans min-h-screen selection:bg-black selection:text-white antialiased pb-28">
       <Nav />
 
-      {/* Title */}
-      <section className="max-w-[1500px] mx-auto px-6 md:px-12 pt-16 md:pt-20 mb-16">
-        <h1 className="text-6xl md:text-8xl font-black tracking-tighter uppercase text-black leading-[0.85]">
+      <section className="max-w-[1500px] mx-auto px-6 md:px-12 pt-12 md:pt-20 mb-12 md:mb-16">
+        <h1 className="font-display text-6xl md:text-8xl uppercase text-black leading-[0.85]">
           Team &amp;<br />Advisors
         </h1>
       </section>
 
-      {/* 1 · Org chart on top — hidden until the design team's image lands */}
       {orgChart && (
         <section className="max-w-[1500px] mx-auto px-6 md:px-12 mb-24">
           <h2 className="font-mono text-[11px] font-black tracking-[0.25em] uppercase text-black/40 mb-6 border-b border-black/10 pb-3">
@@ -102,33 +119,9 @@ export default function TeamPage() {
         </section>
       )}
 
-      {/* 2 · Team grid */}
-      {team.length > 0 && (
-        <section className="max-w-[1500px] mx-auto px-6 md:px-12 mb-24">
-          <h2 className="font-mono text-[11px] font-black tracking-[0.25em] uppercase text-black/40 mb-10 border-b border-black/10 pb-3">
-            Team
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-14">
-            {team.map((p, i) => (
-              <PersonCard key={i} p={p} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* 3 · Advisors */}
-      {advisors.length > 0 && (
-        <section className="max-w-[1500px] mx-auto px-6 md:px-12">
-          <h2 className="font-mono text-[11px] font-black tracking-[0.25em] uppercase text-black/40 mb-10 border-b border-black/10 pb-3">
-            Advisors
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-14">
-            {advisors.map((p, i) => (
-              <PersonCard key={i} p={p} />
-            ))}
-          </div>
-        </section>
-      )}
+      <PeopleSection title="Team" people={team} />
+      <PeopleSection title="Advisors" people={advisors} />
+      <PeopleSection title="Alumni" people={alumni} />
     </main>
   );
 }

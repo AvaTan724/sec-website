@@ -1,150 +1,143 @@
+// app/page.tsx
 "use client";
 
-import Link from 'next/link';
-import { useEffect } from 'react';
-import Nav from '@/components/Nav';
+import Link from "next/link";
+import { useEffect } from "react";
+import Nav from "@/components/Nav";
 
+const CONTACT = "mailto:sunwayentrepreneursclub@gmail.com";
+
+// --- DATA ---------------------------------------------------------------
+
+// Verified, sourced quotes. Replace progressively with quotes from SEC's own
+// speakers after each event — that's when this section becomes proof.
+// TODO: source and verify a Tan Sri Jeffrey Cheah quote (Sunway's founder)
+// from his published speeches — verify exact wording before shipping it.
 const quotes = [
   {
-    text: "You didn’t even have to be smart. You had to have good follow-up. If you followed up, it kind of gave that extra point on the smart side of the scale.",
-    author: "Michael Ovitz"
+    text: "Make something people want.",
+    author: "Paul Graham", // Y Combinator's motto
   },
   {
-    text: "Imagine how hard it is to start your business, then multiply that by infinity. And if you’re still committed to do it, and you have the stamina to stick with that, then you’ll be successful.",
-    author: "Todd Graves"
+    text: "Play long-term games with long-term people.",
+    author: "Naval Ravikant",
   },
   {
-    text: "I want all A-players. If we have a relationship where someone is terminated, I want it to be done with respect. It’s about building a culture of elite performers.",
-    author: "Brad Jacobs"
+    text: "Take a simple idea and take it seriously.",
+    author: "Charlie Munger",
   },
   {
-    text: "The most important thing is to have a long-term view. If you are building something that is going to take 10 years, you have to be patient and ignore the short-term noise.",
-    author: "Sam Altman"
-  }
+    text: "Your margin is my opportunity.",
+    author: "Jeff Bezos",
+  },
 ];
 
+// Title = the member outcome. Description = the concrete vehicle.
+const pillars = [
+  {
+    title: "Get in the room",
+    desc: "Founder talks and corporate visits with the people running real companies.",
+  },
+  {
+    title: "Learn the tools",
+    desc: "Hands-on sessions on AI and the working stack operators actually use.",
+  },
+  {
+    title: "Read sharper",
+    desc: "SEC Reads and a curated library of the sources worth your time.",
+  },
+  {
+    title: "Join the network",
+    desc: "Sunway Nexus: members, alumni, partner clubs, and sponsors in one community.",
+  },
+];
+
+const sponsorPoints = [
+  "Direct access to the SEC member base",
+  "Branded sessions & workshops",
+  "Cross-campus partnership brokering",
+  "Year-round presence, not one-off events",
+];
+
+const GOOGLE_FORM_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSezVZpDlnnR1OT4z2wVl4s6lzZUPq9nj69xqHpwzTHpgBwy5A/viewform?embedded=true";
+
+// -------------------------------------------------------------------------
+
 export default function Home() {
-
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      // threshold 0 + rootMargin: fires even for sections taller than the
+      // viewport (the old 0.15 threshold could leave tall sections invisible
+      // forever on mobile).
+      { threshold: 0, rootMargin: "0px 0px -10% 0px" }
+    );
 
-    document.querySelectorAll('.scroll-reveal').forEach((el) => {
-      observer.observe(el);
-    });
-
+    document.querySelectorAll(".scroll-reveal").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
   return (
     <main className="bg-white text-black font-sans min-h-screen selection:bg-black selection:text-white antialiased">
-
-      <style jsx global>{`
-        @keyframes clipUp {
-          0% { transform: translateY(110%); opacity: 0; }
-          100% { transform: translateY(0); opacity: 1; }
-        }
-        .animate-clip-up {
-          animation: clipUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .scroll-reveal {
-          opacity: 0;
-          transform: translateY(30px);
-          transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .scroll-reveal.is-visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
-
-        .btn-oxblood {
-          position: relative;
-          overflow: hidden;
-          z-index: 1;
-        }
-        .btn-oxblood::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 0; right: 0; bottom: 0;
-          background: #4a0404;
-          z-index: -1;
-          transform: scaleX(0);
-          transform-origin: left;
-          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .btn-oxblood:hover::before {
-          transform: scaleX(1);
-        }
-
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-          display: flex;
-          width: max-content;
-          animation: marquee 40s linear infinite;
-        }
-
-        @keyframes bounceCue {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(4px); }
-        }
-        .animate-cue { animation: bounceCue 1.6s ease-in-out infinite; }
-      `}</style>
-
       <Nav variant="overlay" />
 
-      {/* HERO SECTION — centered wordmark, David Senra style, no photo */}
-      <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-6 md:px-12 pt-32 pb-24 overflow-hidden">
-
-        {/* Tagline — the descriptor line above the name */}
-        <p className="font-mono text-[10px] md:text-sm uppercase tracking-[0.25em] text-black/50 mb-8 md:mb-10">
-          Where Sunway’s builders become operators
+      {/* ============================== HERO ============================== */}
+      <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-6 md:px-12 pt-28 pb-16 md:pt-32 md:pb-24 overflow-hidden">
+        <p className="font-mono text-[10px] md:text-sm uppercase tracking-[0.25em] text-black/50 mb-6 md:mb-10">
+          Sunway University&rsquo;s Entrepreneurship Club · Reestablished 2026
         </p>
 
-        {/* Giant stacked wordmark */}
-        <h1 className="font-black uppercase tracking-tighter leading-[0.82] text-black text-[clamp(2.25rem,11vw,11.5rem)] max-w-[96vw]">
+        <h1 className="font-display uppercase leading-[0.86] text-black text-[clamp(2.5rem,12vw,12.5rem)] max-w-[96vw]">
           {["Sunway", "Entrepreneurs", "Club"].map((word, i) => (
             <span key={i} className="block overflow-hidden pb-1">
-              <span className="block animate-clip-up" style={{ animationDelay: `${i * 0.12}s` }}>
+              <span
+                className="block animate-clip-up"
+                style={{ animationDelay: `${i * 0.12}s` }}
+              >
                 {word}
               </span>
             </span>
           ))}
         </h1>
 
-        {/* CTA cluster — mirrors Senra's line + button */}
-        <div className="mt-14 md:mt-16 flex flex-col items-center gap-7">
+        <div className="mt-10 md:mt-16 flex flex-col items-center gap-6 md:gap-7">
           <p className="text-base md:text-lg font-medium text-black/50">
             Open to every Sunway student.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-4">
-            <a href="#register" className="inline-block bg-black text-white px-12 py-5 font-black text-xs uppercase tracking-[0.2em] hover:bg-black/80 transition-all shadow-xl">
+            <a
+              href="#register"
+              className="inline-block bg-black text-white px-12 py-5 font-black text-xs uppercase tracking-[0.2em] hover:bg-black/80 transition-all shadow-xl"
+            >
               Register
             </a>
-            <Link href="/sponsors" className="inline-block px-6 py-5 text-xs font-black uppercase tracking-[0.2em] text-black/50 hover:text-black transition-colors">
+            <a
+              href={CONTACT}
+              className="inline-block px-6 py-5 text-xs font-black uppercase tracking-[0.2em] text-black/50 hover:text-black transition-colors"
+            >
               Partner with us →
-            </Link>
+            </a>
           </div>
         </div>
       </section>
 
-      {/* ABOUT SECTION (Dark Mode) */}
-      <section id="about" className="w-full bg-black text-white px-6 md:px-12 py-24 md:py-32 selection:bg-white selection:text-black">
+      {/* ============================== ABOUT ============================== */}
+      <section
+        id="about"
+        className="w-full bg-black text-white px-6 md:px-12 py-16 md:py-32 selection:bg-white selection:text-black"
+      >
         <div className="max-w-[1600px] mx-auto">
-
-          {/* Editorial two-column: label anchor left, prose right */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
             <div className="md:col-span-4">
-              <div className="md:sticky md:top-24 flex flex-col gap-8">
+              <div className="md:sticky md:top-24 flex flex-col gap-6 md:gap-8">
                 <h2 className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-white/50 scroll-reveal">
                   About The Club
                 </h2>
@@ -156,113 +149,117 @@ export default function Home() {
 
             <div className="md:col-span-8 flex flex-col gap-8">
               <p className="text-lg md:text-2xl lg:text-3xl font-medium leading-relaxed tracking-tight scroll-reveal">
-                Sunway has no shortage of ambition. What it lacked was a home for the people who build. SEC is that home — where ideas meet the mentorship, network, and access to make them real, and where students stop waiting for permission to start. We’re building the institution its members will be proud they came from.
+                SEC is where Sunway&rsquo;s ideas meet the mentorship, network,
+                and access to make them real — where builders become operators.
+                We&rsquo;re building the institution its members will be proud
+                they came from.
               </p>
-              <p className="text-lg md:text-2xl lg:text-3xl font-medium leading-relaxed tracking-tight text-white/70 scroll-reveal">
-                To build a community of aspiring entrepreneurs and innovators, fostering real-world skills, professional connections, and opportunities beyond campus to help members turn their ideas into reality and become future business leaders.
-              </p>
-              <div className="scroll-reveal mt-2">
-                <Link
-                  href="/sponsors"
-                  className="inline-block rounded-full border border-white/40 px-8 py-3 text-sm font-medium hover:bg-white hover:text-black hover:border-white transition-all duration-300"
-                >
-                  Learn more about how we work
-                </Link>
-              </div>
             </div>
           </div>
 
-          {/* WHAT WE DO - GRID */}
-          <div className="w-full mt-32 md:mt-48 scroll-reveal">
-            <h2 className="text-[5rem] md:text-[8rem] lg:text-[11rem] font-black uppercase tracking-tighter leading-[0.8] text-white mb-16 md:mb-24">
-              WHAT<br/>WE DO?
+          {/* WHAT WE DO */}
+          <div className="w-full mt-20 md:mt-48">
+            <h2 className="font-display text-[4rem] md:text-[8rem] lg:text-[11rem] uppercase leading-[0.85] text-white mb-12 md:mb-24 scroll-reveal">
+              What
+              <br />
+              we do
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 text-left">
-              {[
-                { title: "Develop Innovation & Leadership", desc: "Practical skills and entrepreneurial thinking through training, mentorship, and hands-on projects." },
-                { title: "Build An Active Network", desc: "Connecting students, alumni, business leaders, and sponsors through Sunway Nexus by SEC." },
-                { title: "Empower Through Opportunities", desc: "Internship and working-experience pathways within Sunway Group and industry partners." },
-                { title: "Strengthen Brand & Community", desc: "Positioning SEC as a recognised entrepreneurship ecosystem." },
-                { title: "Broker Cross-Campus Partnerships", desc: "Connecting partner clubs to relevant sponsors and brands." }
-              ].map((pillar, index) => (
-                <div key={index} className="bg-white text-black p-8 flex flex-col h-full hover:scale-[1.02] transition-transform duration-300">
-                  <div className="font-mono text-sm text-black/40 font-bold mb-8">0{index + 1}</div>
-                  <h4 className="font-black text-2xl uppercase tracking-tighter leading-[0.9] mb-4">{pillar.title}</h4>
-                  <p className="font-medium text-black/80 text-sm leading-relaxed mt-auto">{pillar.desc}</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+              {pillars.map((pillar, index) => (
+                <div
+                  key={pillar.title}
+                  className="scroll-reveal bg-white text-black p-8 flex flex-col h-full hover:scale-[1.02] transition-transform duration-300"
+                  style={{ transitionDelay: `${index * 80}ms` }}
+                >
+                  <div className="font-mono text-sm text-black/40 font-bold mb-8">
+                    0{index + 1}
+                  </div>
+                  <h3 className="font-black text-2xl uppercase tracking-tighter leading-[0.9] mb-4">
+                    {pillar.title}
+                  </h3>
+                  <p className="font-medium text-black/80 text-sm leading-relaxed mt-auto">
+                    {pillar.desc}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* AUTO-SLIDING QUOTES SECTION */}
-      <section className="w-full py-32 md:py-48 bg-white overflow-hidden border-t border-black/10">
-        <div className="px-6 md:px-12 mb-24 md:mb-32">
-          <h2 className="text-3xl md:text-5xl font-black tracking-tighter uppercase text-black leading-none mb-2">
-            Words We
+      {/* ========================= QUOTES MARQUEE ========================= */}
+      <section className="w-full py-20 md:py-48 bg-white overflow-hidden border-t border-black/10">
+        <div className="px-6 md:px-12 mb-16 md:mb-32">
+          <h2 className="font-display uppercase text-black leading-[0.8]">
+            <span className="block text-3xl md:text-5xl mb-2">Words We</span>
+            <span className="block text-[5rem] md:text-[12rem] lg:text-[14rem] leading-[0.78]">
+              Build By
+            </span>
           </h2>
-          <h3 className="text-[7rem] md:text-[12rem] lg:text-[14rem] font-black tracking-tighter uppercase text-black leading-[0.75]">
-            Build By
-          </h3>
         </div>
 
         <div className="relative w-full overflow-hidden flex items-center">
-          <div className="animate-marquee gap-16 px-6 hover:[animation-play-state:paused] cursor-grab active:cursor-grabbing">
-            {[...quotes, ...quotes].map((quote, index) => (
+          <div className="animate-marquee hover:[animation-play-state:paused]">
+            {[false, true].map((hidden) => (
               <div
-                key={index}
-                className="shrink-0 w-[85vw] md:w-[700px] border-l-[1.5px] border-black/15 pl-8 md:pl-12 flex flex-col justify-between py-2"
+                key={hidden ? "dup" : "main"}
+                aria-hidden={hidden || undefined}
+                className="flex gap-16 px-8"
               >
-                <p className="text-2xl md:text-3xl lg:text-4xl text-black font-medium leading-[1.3] tracking-tight mb-12">
-                  &ldquo;{quote.text}&rdquo;
-                </p>
-                <p className="text-sm text-black/90 font-medium flex items-center">
-                  — {quote.author}
-                  <span className="ml-3 text-black/40">→</span>
-                </p>
+                {quotes.map((quote, index) => (
+                  <div
+                    key={index}
+                    className="shrink-0 w-[85vw] md:w-[700px] border-l-[1.5px] border-black/15 pl-8 md:pl-12 flex flex-col justify-between py-2"
+                  >
+                    <p className="text-2xl md:text-3xl lg:text-4xl text-black font-medium leading-[1.3] tracking-tight mb-12">
+                      &ldquo;{quote.text}&rdquo;
+                    </p>
+                    <p className="text-sm text-black/90 font-medium">
+                      — {quote.author}
+                    </p>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* PARTNERS / SUNWAY NEXUS BAND (opens the dark closing sequence) */}
-      <section className="w-full bg-black text-white px-6 md:px-12 py-24 md:py-32 selection:bg-white selection:text-black">
-        <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-start">
+      {/* ========================== PARTNER BAND ========================== */}
+      <section className="w-full bg-black text-white px-6 md:px-12 py-16 md:py-32 selection:bg-white selection:text-black">
+        <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start">
           <div className="md:col-span-7 flex flex-col gap-8">
             <h2 className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-white/50 scroll-reveal">
-              Sunway Nexus by SEC
+              For Partners
             </h2>
             <p className="font-serif text-4xl md:text-6xl lg:text-7xl leading-[1.02] tracking-tight scroll-reveal">
               Reach the builders before anyone else does.
             </p>
             <p className="text-lg md:text-xl font-medium text-white/60 leading-relaxed max-w-2xl scroll-reveal">
-              Partner brands plug directly into Sunway’s most driven student operators — through sessions, sponsorships, and cross-campus activations.
+              Partner with SEC to reach Sunway&rsquo;s student builders through
+              sessions, sponsorships, and cross-campus activations.
             </p>
             <div className="scroll-reveal">
-              <Link
-                href="/sponsors"
+              <a
+                href={CONTACT}
                 className="btn-oxblood inline-block border border-white/30 text-white px-12 py-5 font-mono text-xs uppercase tracking-[0.2em] hover:border-white transition-colors"
               >
-                See the Sponsor Guide
-              </Link>
+                Partner with us
+              </a>
             </div>
           </div>
 
           <div className="md:col-span-5 md:pt-16">
             <ul className="flex flex-col divide-y divide-white/10 scroll-reveal">
-              {[
-                "Direct access to an engaged member base",
-                "Branded sessions & workshops",
-                "Cross-campus partnership brokering",
-                "Year-round presence, not one-off events"
-              ].map((item, i) => (
+              {sponsorPoints.map((item, i) => (
                 <li key={i} className="flex items-baseline gap-6 py-5">
-                  <span className="font-mono text-xs text-white/40">0{i + 1}</span>
-                  <span className="text-base md:text-lg font-medium text-white/90 leading-snug">{item}</span>
+                  <span className="font-mono text-xs text-white/40">
+                    0{i + 1}
+                  </span>
+                  <span className="text-base md:text-lg font-medium text-white/90 leading-snug">
+                    {item}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -270,63 +267,97 @@ export default function Home() {
         </div>
       </section>
 
-      {/* INK BAND REGISTRATION SECTION */}
-      <section id="register" className="w-full bg-[#050505] text-white py-32 md:py-48 border-t border-white/10 selection:bg-white selection:text-black">
+      {/* =========================== REGISTER =========================== */}
+      <section
+        id="register"
+        className="w-full bg-[#050505] text-white py-20 md:py-40 border-t border-white/10 selection:bg-white selection:text-black"
+      >
         <div className="max-w-4xl mx-auto px-6 md:px-12 flex flex-col items-center text-center">
-
-          <h2 className="font-serif text-4xl md:text-6xl leading-[1.1] mb-12 text-white">
-            Join the network. Register through Sunway Nexus by SEC.
+          <h2 className="font-serif text-4xl md:text-6xl leading-[1.1] mb-6 text-white">
+            Join SEC.
           </h2>
+          <p className="text-base md:text-lg font-medium text-white/60 mb-14 max-w-xl">
+            One form covers everything — free community access through Sunway
+            Nexus, or full membership.
+          </p>
 
-          <a
-            href="#register"
-            className="btn-oxblood inline-block border border-white/30 text-white px-12 py-5 font-mono text-xs uppercase tracking-[0.2em] mb-24 hover:border-white transition-colors"
-          >
-            Access The Form
-          </a>
-
-          <div className="w-full bg-white/5 border border-white/10 p-2 md:p-6 rounded-sm shadow-2xl">
+          <div className="w-full bg-white p-2 md:p-4 rounded-sm shadow-2xl">
             <iframe
-              src="https://docs.google.com/forms/d/e/1FAIpQLSezVZpDlnnR1OT4z2wVl4s6lzZUPq9nj69xqHpwzTHpgBwy5A/viewform?embedded=true"
+              src={GOOGLE_FORM_URL}
               width="100%"
-              height="800"
-              frameBorder="0"
-              marginHeight={0}
-              marginWidth={0}
-              className="grayscale opacity-90 mix-blend-screen"
+              height="900"
+              title="SEC registration form"
+              className="border-0"
             >
-              Loading Form…
+              Loading form…
             </iframe>
           </div>
-
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="w-full bg-black text-white px-6 md:px-12 pt-24 pb-12 border-t border-white/10 selection:bg-white selection:text-black">
+      {/* ============================ FOOTER ============================ */}
+      <footer className="w-full bg-black text-white px-6 md:px-12 pt-20 md:pt-24 pb-12 border-t border-white/10 selection:bg-white selection:text-black">
         <div className="max-w-[1600px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 pb-20">
             <div className="md:col-span-6 flex flex-col gap-6">
-              <span className="font-black text-4xl md:text-5xl tracking-tighter leading-none">SEC CLUB</span>
+              <span className="font-display text-4xl md:text-5xl uppercase leading-none">
+                SEC
+              </span>
               <p className="text-white/50 text-base md:text-lg font-medium max-w-md leading-relaxed">
-                A campus entrepreneurship ecosystem at Sunway University. Where builders become operators.
+                The entrepreneurs club at Sunway University. Reestablished
+                2026.
               </p>
             </div>
 
             <div className="md:col-span-3 flex flex-col gap-5">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">Explore</span>
-              <Link href="/#about" className="text-white/70 hover:text-white transition-colors">About</Link>
-              <Link href="/#register" className="text-white/70 hover:text-white transition-colors">Register</Link>
-              <Link href="/sponsors" className="text-white/70 hover:text-white transition-colors">Partners</Link>
-              <Link href="/news" className="text-white/70 hover:text-white transition-colors">News</Link>
+              <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">
+                Explore
+              </span>
+              <Link href="/#about" className="text-white/70 hover:text-white transition-colors">
+                About
+              </Link>
+              <Link href="/team" className="text-white/70 hover:text-white transition-colors">
+                Team
+              </Link>
+              <Link href="/news" className="text-white/70 hover:text-white transition-colors">
+                News
+              </Link>
+              <Link href="/episodes" className="text-white/70 hover:text-white transition-colors">
+                Podcast
+              </Link>
+              <Link href="/#register" className="text-white/70 hover:text-white transition-colors">
+                Register
+              </Link>
             </div>
 
             <div className="md:col-span-3 flex flex-col gap-5">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">Connect</span>
-              <a href="https://www.instagram.com/sunway_sec" className="text-white/70 hover:text-white transition-colors">Instagram</a>
-              <a href="https://www.linkedin.com/company/sunway-entrepreneurs-club/" className="text-white/70 hover:text-white transition-colors">LinkedIn</a>
-              <a href="https://www.facebook.com/sunway.sec/" className="text-white/70 hover:text-white transition-colors">Facebook</a>
-              <a href="mailto:sunwayentrepreneursclub@gmail.com " className="text-white/70 hover:text-white transition-colors">sunwayentrepreneursclub@gmail.com</a>
+              <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">
+                Connect
+              </span>
+              <a
+                href="https://www.instagram.com/sunway_sec"
+                className="text-white/70 hover:text-white transition-colors"
+              >
+                Instagram
+              </a>
+              <a
+                href="https://www.linkedin.com/company/sunway-entrepreneurs-club/"
+                className="text-white/70 hover:text-white transition-colors"
+              >
+                LinkedIn
+              </a>
+              <a
+                href="https://www.facebook.com/sunway.sec/"
+                className="text-white/70 hover:text-white transition-colors"
+              >
+                Facebook
+              </a>
+              <a
+                href={CONTACT}
+                className="text-white/70 hover:text-white transition-colors"
+              >
+                sunwayentrepreneursclub@gmail.com
+              </a>
             </div>
           </div>
 
@@ -336,7 +367,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
     </main>
   );
 }
