@@ -1,216 +1,170 @@
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import Nav from '@/components/Nav'; // Your global Nav component
+import Nav from '@/components/Nav';
 
 // --- TYPES ---
-type RegionBlock = {
-  region: string;
-  top: { name: string; url: string };
-  links: { name: string; url: string }[];
+type Article = {
+  headline: string;
+  url: string;
+  source: string;
 };
 
-// --- HELPER FUNCTION ---
-function getFaviconUrl(link: string) {
-  try {
-    const url = new URL(link);
-    return `https://www.google.com/s2/favicons?domain=${url.hostname}&sz=128`;
-  } catch {
-    return ""; 
+type CategoryBlock = {
+  category: string;
+  articles: Article[];
+};
+
+// --- ALLTOP-STYLE MOCK DATA (STRICTLY REUTERS & OPEN-ACCESS) ---
+const directoryData: CategoryBlock[] = [
+  {
+    category: "AI",
+    articles: [
+      { headline: "OpenAI releases new reasoning models for developers", url: "#", source: "Reuters" },
+      { headline: "How AI hardware is dominating venture capital in Q3", url: "#", source: "Open-Access Source" },
+      { headline: "Nvidia's latest earnings report shatters expectations", url: "#", source: "Reuters" },
+      { headline: "The ethical debate around open-source AI weights", url: "#", source: "Open-Access Source" },
+      { headline: "Google integrates Gemini into all enterprise workspace apps", url: "#", source: "Reuters" }
+    ]
+  },
+  {
+    category: "Finance",
+    articles: [
+      { headline: "Bank Negara Malaysia maintains OPR at 3.00%", url: "#", source: "Open-Access Source" },
+      { headline: "Singapore FinTech investments hit a 2-year high", url: "#", source: "Open-Access Source" },
+      { headline: "Wall Street closes higher as inflation fears ease", url: "#", source: "Reuters" },
+      { headline: "The rise of private credit in Southeast Asia", url: "#", source: "Open-Access Source" },
+      { headline: "Bitcoin stabilizes after weekend volatility", url: "#", source: "Reuters" }
+    ]
+  },
+  {
+    category: "Business",
+    articles: [
+      { headline: "Global shipping rates surge amid supply chain bottlenecks", url: "#", source: "Reuters" },
+      { headline: "Corporate bankruptcies fall to lowest level since 2019", url: "#", source: "Reuters" },
+      { headline: "Major retail chains announce holiday hiring plans", url: "#", source: "Open-Access Source" },
+      { headline: "The transition back to in-office mandates accelerates", url: "#", source: "Reuters" },
+      { headline: "Regional tech firms report strong Q2 profit margins", url: "#", source: "Open-Access Source" }
+    ]
+  },
+  {
+    category: "Tech",
+    articles: [
+      { headline: "Major redesign announced for next-gen consumer laptops", url: "#", source: "Open-Access Source" },
+      { headline: "Cybersecurity firm uncovers massive zero-day exploit", url: "#", source: "Reuters" },
+      { headline: "The decline of traditional search engines", url: "#", source: "Open-Access Source" },
+      { headline: "Semiconductor giants begin construction on new European fabs", url: "#", source: "Reuters" },
+      { headline: "Startup founders shift focus to profitability over growth", url: "#", source: "Open-Access Source" }
+    ]
+  },
+  {
+    category: "Sports",
+    articles: [
+      { headline: "Champions League format changes spark controversy", url: "#", source: "Reuters" },
+      { headline: "Record-breaking contract signed in Formula 1", url: "#", source: "Reuters" },
+      { headline: "Olympic committee announces new sports for 2028", url: "#", source: "Reuters" },
+      { headline: "Data analytics revolutionizes professional tennis", url: "#", source: "Open-Access Source" },
+      { headline: "The economic impact of global sporting events", url: "#", source: "Open-Access Source" }
+    ]
+  },
+  {
+    category: "Entertainment",
+    articles: [
+      { headline: "Box office numbers rebound with summer blockbusters", url: "#", source: "Reuters" },
+      { headline: "Streaming platforms plan aggressive price hikes", url: "#", source: "Reuters" },
+      { headline: "The strike's long-term impact on television production", url: "#", source: "Open-Access Source" },
+      { headline: "Indie game studios see unprecedented market growth", url: "#", source: "Open-Access Source" },
+      { headline: "The blending of interactive media and traditional cinema", url: "#", source: "Reuters" }
+    ]
+  },
+  {
+    category: "Music",
+    articles: [
+      { headline: "Major labels restructure royalties for streaming platforms", url: "#", source: "Reuters" },
+      { headline: "The resurgence of vinyl outpaces CD sales again", url: "#", source: "Open-Access Source" },
+      { headline: "AI-generated tracks banned from major music awards", url: "#", source: "Reuters" },
+      { headline: "Live music revenues break records despite ticket pricing backlash", url: "#", source: "Open-Access Source" },
+      { headline: "Independent artists leveraging social media for chart dominance", url: "#", source: "Open-Access Source" }
+    ]
   }
-}
-
-// --- DATA STRUCTURES (GEOGRAPHY) ---
-const apacRegions: RegionBlock[] = [
-  { region: "Malaysia", top: { name: "The Edge Malaysia", url: "https://theedgemalaysia.com" }, links: [] },
-  { region: "Singapore", top: { name: "The Business Times", url: "https://www.businesstimes.com.sg/global" }, links: [] },
-  { region: "Indonesia", top: { name: "Jakarta Post", url: "https://www.thejakartapost.com/business" }, links: [] },
-  { region: "Thailand", top: { name: "Bangkok Post", url: "https://www.bangkokpost.com/business" }, links: [] },
-  { region: "Philippines", top: { name: "BusinessWorld", url: "https://bworldonline.com/the-nation/" }, links: [] },
-  { region: "Vietnam", top: { name: "VnExpress", url: "https://e.vnexpress.net/" }, links: [] },
-  { region: "China", top: { name: "Caixin Global", url: "https://www.caixinglobal.com/" }, links: [] },
-  { region: "India", top: { name: "Economic Times", url: "https://m.economictimes.com/" }, links: [] },
-  { region: "Australia", top: { name: "Financial Review", url: "https://www.afr.com/" }, links: [] },
-  { region: "Broader Asia", top: { name: "Nikkei Asia", url: "https://asia.nikkei.com/" }, links: [{ name: "The Diplomat", url: "https://thediplomat.com/" }] }
 ];
-
-const westernRegions: RegionBlock[] = [
-  { region: "United States", top: { name: "Wall Street Journal", url: "https://www.wsj.com" }, links: [] },
-  { region: "UK & Europe", top: { name: "The Economist", url: "https://www.economist.com/" }, links: [] }
-];
-
-const globalAndMena: RegionBlock[] = [
-  { region: "Middle East", top: { name: "Zawya", url: "https://www.zawya.com/" }, links: [{ name: "Arab News", url: "https://www.arabnews.com/economy" }, { name: "Gulf News", url: "https://gulfnews.com/business" }, { name: "The National", url: "https://www.thenationalnews.com/" }, { name: "Al Jazeera", url: "https://www.aljazeera.com/economy/" }] },
-  { region: "Global", top: { name: "Trading Economics", url: "https://tradingeconomics.com/" }, links: [{ name: "IMF News", url: "https://www.imf.org/en/news" }] }
-];
-
-// --- DATA STRUCTURES (INDUSTRY) ---
-const industriesCol1: RegionBlock[] = [
-  { region: "Technology", top: { name: "The Information", url: "https://www.theinformation.com" }, links: [{ name: "Techmeme", url: "https://techmeme.com" }, { name: "Stratechery", url: "https://stratechery.com" }, { name: "Rest of World", url: "https://restofworld.org" }] },
-  { region: "Startups & VC", top: { name: "TechCrunch", url: "https://techcrunch.com" }, links: [{ name: "Sifted", url: "https://sifted.eu" }, { name: "The Generalist", url: "https://www.generalist.com" }] },
-  { region: "SE Asia", top: { name: "Tech in Asia", url: "https://www.techinasia.com" }, links: [{ name: "DealStreetAsia", url: "https://www.dealstreetasia.com" }, { name: "e27", url: "https://e27.co" }] },
-  { region: "Finance & Markets", top: { name: "Wall Street Journal", url: "https://www.wsj.com" }, links: [{ name: "Bloomberg", url: "https://www.bloomberg.com" }, { name: "Financial Times", url: "https://www.ft.com" }] },
-];
-
-const industriesCol2: RegionBlock[] = [
-  { region: "Fintech", top: { name: "Finextra", url: "https://www.finextra.com" }, links: [] },
-  { region: "Fashion & Retail", top: { name: "Business of Fashion", url: "https://www.businessoffashion.com" }, links: [{ name: "Vogue Business", url: "https://www.voguebusiness.com" }] },
-  { region: "Crypto & Web3", top: { name: "The Block", url: "https://www.theblock.co" }, links: [{ name: "CoinDesk", url: "https://www.coindesk.com" }] },
-];
-
-// --- REUSABLE REGION BLOCK ---
-function RegionRows({ data }: { data: RegionBlock[] }) {
-  return (
-    <div className="space-y-0 border-t-[3px] border-black">
-      {data.map((item, idx) => (
-        <div key={idx} className="border-b-[3px] border-black py-5">
-          <h3 className="text-lg font-black uppercase tracking-tight mb-3">
-            {item.region}
-          </h3>
-
-          <a
-            href={item.top.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-2 border-black p-3 mb-4 hover:bg-black hover:text-white transition-all duration-200"
-          >
-            <div className="flex items-center gap-3">
-              <img
-                src={getFaviconUrl(item.top.url)}
-                alt="Logo"
-                className="w-6 h-6 object-contain grayscale group-hover:grayscale-0 transition-all duration-300 bg-white rounded-sm p-0.5"
-                onError={(e) => (e.currentTarget.style.display = 'none')}
-              />
-              <span className="font-black text-lg uppercase tracking-tight">{item.top.name}</span>
-            </div>
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase border border-current px-2 py-1 whitespace-nowrap">
-              Premier Source
-            </span>
-          </a>
-
-          {item.links.length > 0 && (
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-8">
-              {item.links.map((link, linkIdx) => (
-                <li key={linkIdx}>
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group/link flex items-center gap-2 text-sm font-bold uppercase tracking-wide hover:underline underline-offset-4 decoration-2"
-                  >
-                    <img
-                      src={getFaviconUrl(link.url)}
-                      alt=""
-                      className="w-4 h-4 object-contain grayscale group-hover/link:grayscale-0 transition-all duration-300"
-                      onError={(e) => (e.currentTarget.style.display = 'none')}
-                    />
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      ))}
-    </div>
-  );
-}
 
 // --- MAIN COMPONENT ---
 export default function BusinessNewsPage() {
-  const [view, setView] = useState<'geography' | 'industry'>('geography');
-
   return (
     <div className="min-h-screen bg-white text-black font-sans">
-      
-      {/* Kept your Global Nav component! */}
       <Nav />
 
-      {/* Deleted the secondary <header> that was causing the duplicate */}
-
       <div className="py-24 px-6 sm:px-12 lg:px-24">
-        <div className="max-w-[1400px] mx-auto">
+        <div className="max-w-[1600px] mx-auto">
 
           {/* Header Section */}
           <div className="text-center mb-16 border-b-[3px] border-black pb-12">
             <p className="text-xs md:text-sm font-black tracking-[0.3em] uppercase mb-6 text-black/50">
-              Global Business Intelligence
+              The SEC Aggregator
             </p>
             <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-black uppercase tracking-tighter leading-[0.85] mb-8">
               NEWS<br />DIRECTORY
             </h1>
             <p className="text-lg md:text-xl font-bold max-w-3xl mx-auto uppercase tracking-wider mb-6">
-              We don&rsquo;t publish the news. We tell you who does it best.
+              High-signal links. Zero noise.
             </p>
             <p className="text-base md:text-lg font-medium max-w-3xl mx-auto tracking-tight text-black/70">
-              Financial journalism is fragmented &mdash; no single outlet covers Malaysia, the region, and global markets with equal depth. Rather than compete with premier reporting, SEC curates the definitive source for each market.
+              Modeled after classic link directories. We aggregate the absolute best coverage across AI, Finance, Business, Tech, Sports, Entertainment, and Music into one brutalist dashboard. Sourced strictly from Reuters and open-access intelligence.
             </p>
-            
-            {/* Toggle Button Group */}
-            <div className="flex justify-center mt-12">
-              <div className="inline-flex border-2 border-black p-1 bg-white">
-                <button
-                  onClick={() => setView('geography')}
-                  className={`px-8 py-3 text-xs font-black uppercase tracking-[0.2em] transition-colors ${
-                    view === 'geography' ? 'bg-black text-white' : 'bg-transparent text-black hover:bg-gray-100'
-                  }`}
-                >
-                  By Geography
-                </button>
-                <button
-                  onClick={() => setView('industry')}
-                  className={`px-8 py-3 text-xs font-black uppercase tracking-[0.2em] transition-colors ${
-                    view === 'industry' ? 'bg-black text-white' : 'bg-transparent text-black hover:bg-gray-100'
-                  }`}
-                >
-                  By Industry
-                </button>
-              </div>
-            </div>
           </div>
 
-          {/* Conditional Grid Layout */}
-          {view === 'geography' ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 animate-in fade-in duration-500">
-              <section>
-                <div className="mb-6">
-                  <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter">APAC Markets</h2>
+          {/* ALLTOP MASONRY LAYOUT */}
+          {/* Using Tailwind's column count to create a masonry grid flow */}
+          <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-8 space-y-8">
+            
+            {directoryData.map((block, idx) => (
+              <div 
+                key={idx} 
+                className="break-inside-avoid border-[3px] border-black bg-white"
+              >
+                {/* Category Header */}
+                <div className="bg-black text-white px-5 py-4 border-b-[3px] border-black flex items-center justify-between">
+                  <h2 className="text-2xl font-black uppercase tracking-tighter leading-none">
+                    {block.category}
+                  </h2>
+                  <span className="text-[10px] font-bold tracking-widest uppercase text-white/50">
+                    Live Feed
+                  </span>
                 </div>
-                <RegionRows data={apacRegions} />
-              </section>
 
-              <div className="space-y-16">
-                <section>
-                  <div className="mb-6">
-                    <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter">Western Markets</h2>
-                  </div>
-                  <RegionRows data={westernRegions} />
-                </section>
-                <section>
-                  <div className="mb-6">
-                    <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter">Middle East & Global</h2>
-                  </div>
-                  <RegionRows data={globalAndMena} />
-                </section>
+                {/* Article Links List */}
+                <ul className="flex flex-col divide-y-2 divide-black/10">
+                  {block.articles.map((article, aIdx) => (
+                    <li key={aIdx} className="p-4 hover:bg-gray-50 transition-colors group">
+                      <a 
+                        href={article.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block"
+                      >
+                        <h4 className="font-bold text-sm md:text-base leading-snug tracking-tight group-hover:underline decoration-2 underline-offset-4 mb-2 text-black/90">
+                          {article.headline}
+                        </h4>
+                        <p className="text-[10px] font-mono uppercase tracking-widest text-black/50">
+                          {article.source}
+                        </p>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Footer of the Card */}
+                <div className="p-3 border-t-2 border-black/10 text-right bg-gray-50">
+                  <a href="#" className="text-[10px] font-black tracking-widest uppercase text-black hover:underline">
+                    View More {block.category} →
+                  </a>
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 animate-in fade-in duration-500">
-              <section>
-                <div className="mb-6">
-                  <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter">Core Sectors</h2>
-                </div>
-                <RegionRows data={industriesCol1} />
-              </section>
-              <section>
-                <div className="mb-6">
-                  <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter">Emerging Tech</h2>
-                </div>
-                <RegionRows data={industriesCol2} />
-              </section>
-            </div>
-          )}
+            ))}
+
+          </div>
 
           {/* Footer Accent Line */}
           <div className="mt-24 border-t-[12px] border-black pt-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
