@@ -64,7 +64,7 @@ function PersonCard({ p }: { p: Person }) {
         )}
         <div className="absolute inset-0 bg-black/25 group-hover:bg-transparent transition-colors duration-700 pointer-events-none" />
         {p.tag && (
-          <span className="absolute top-3 left-3 font-mono text-[10px] uppercase tracking-[0.2em] bg-white text-black px-2 py-1">
+          <span className="absolute top-3 left-3 max-w-[calc(100%-1.5rem)] truncate font-mono text-[9px] uppercase tracking-[0.12em] bg-white text-black px-2 py-1">
             {p.tag}
           </span>
         )}
@@ -88,7 +88,7 @@ function PeopleSection({ title, people }: { title: string; people: Person[] }) {
       <h2 className="font-mono text-[11px] font-black tracking-[0.25em] uppercase text-black/40 mb-10 border-b border-black/10 pb-3">
         {title}
       </h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-14">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-14">
         {people.map((p, i) => (
           <PersonCard key={i} p={p} />
         ))}

@@ -14,7 +14,7 @@ export const metadata = {
 export default async function EpisodesDirectory() {
   const { data: episodes } = await supabase
     .from('episodes')
-    .select('id, title, source_show, created_at')
+    .select('*')
     .order('created_at', { ascending: false });
 
   const hasEpisodes = !!episodes && episodes.length > 0;

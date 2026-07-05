@@ -96,12 +96,12 @@ export default async function NewsPage() {
             </p>
           </div>
 
-          {/* Category cards — masonry via CSS columns */}
-          <div className="columns-1 md:columns-2 xl:columns-4 gap-8 space-y-8">
+          {/* Category cards — grid with aligned tops; each card is exactly its content's height */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 items-start">
             {categories.map((cat) => (
               <div
                 key={cat.title}
-                className="break-inside-avoid border-[3px] border-black bg-white"
+                className="border-[3px] border-black bg-white"
               >
                 <div className="bg-black text-white px-5 py-4">
                   <h2 className="text-2xl font-black uppercase tracking-tighter leading-none">

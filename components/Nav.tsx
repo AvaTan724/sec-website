@@ -118,7 +118,7 @@ export default function Nav({ variant = 'bar' }: { variant?: 'bar' | 'overlay' }
 
         <div className="flex justify-between items-end font-mono text-[10px] uppercase tracking-widest text-white/40">
           <span>Sunway Entrepreneurs Club</span>
-          <a href="https://www.instagram.com/sunway_sec" className="text-white/60">
+          <a href="https://www.instagram.com/sunwayentrepreneurs" className="text-white/60">
             Instagram
           </a>
         </div>
