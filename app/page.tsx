@@ -4,7 +4,6 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
 
 const CONTACT = "mailto:sunwayentrepreneursclub@gmail.com";
 
@@ -296,7 +295,7 @@ export default function Home() {
         </div>
       </section>
 
-      <Footer />
+      
     </main>
   );
 }
