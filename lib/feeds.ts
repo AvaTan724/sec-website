@@ -26,11 +26,6 @@ export const CATEGORIES: Category[] = [
     blurb: 'Business and markets coverage closest to home.',
     sources: [
       {
-        name: 'The Star Business',
-        site: 'https://www.thestar.com.my/business',
-        feed: 'https://www.thestar.com.my/rss/business', // VERIFY
-      },
-      {
         name: 'Free Malaysia Today',
         site: 'https://www.freemalaysiatoday.com',
         feed: 'https://www.freemalaysiatoday.com/feed/',

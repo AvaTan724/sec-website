@@ -147,13 +147,20 @@ function PersonCard({ p }: { p: Person }) {
 function PeopleSection({ title, people }: { title: string; people: Person[] }) {
   if (people.length === 0) return null;
   return (
-    <section className="max-w-[1500px] mx-auto px-6 md:px-12 mb-24">
-      <h2 className="font-mono text-[11px] font-black tracking-[0.25em] uppercase text-black/40 mb-10 border-b-[2px] border-black pb-3">
+    <section className="max-w-[1500px] mx-auto px-6 md:px-12 mb-20 md:mb-24">
+      <h2 className="font-mono text-[11px] font-black tracking-[0.25em] uppercase text-black/40 mb-8 border-b-[2px] border-black pb-3">
         {title}
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-14">
+      
+      {/* 
+        Mobile: Swipeable horizontal row 
+        Desktop: Standard 3 or 4 column grid
+      */}
+      <div className="flex md:grid md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-x-8 md:gap-y-14 overflow-x-auto snap-x snap-mandatory pb-8 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         {people.map((p, i) => (
-          <PersonCard key={i} p={p} />
+          <div key={i} className="min-w-[80vw] sm:min-w-[45vw] md:min-w-0 snap-center shrink-0">
+            <PersonCard p={p} />
+          </div>
         ))}
       </div>
     </section>
