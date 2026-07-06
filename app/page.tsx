@@ -56,10 +56,10 @@ const pillars = [
 ];
 
 const sponsorPoints = [
-  "Direct access to the SEC member base",
-  "Branded sessions & workshops",
-  "Cross-campus partnership brokering",
-  "Year-round presence, not one-off events",
+  "Access to an engaged student operator community",
+  "Branded talks and corporate visit opportunities",
+  "Capability-building workshops and applied learning sessions",
+  "Cross-campus and CSR-aligned community programmes",
 ];
 
 const GOOGLE_FORM_URL =
@@ -273,8 +273,8 @@ export default function Home() {
               Reach the builders before anyone else does.
             </p>
             <p className="text-lg md:text-xl font-medium text-white/60 leading-relaxed max-w-2xl scroll-reveal">
-              Partner with SEC to reach Sunway&rsquo;s student builders through
-              sessions, sponsorships, and cross-campus activations.
+              Engage a university community of emerging operators through structured learning, exposure, and activation platforms.
+SEC enables partners to connect with students through founder talks, corporate visits, workshops, curated content platforms, and community initiatives.
             </p>
             <div className="scroll-reveal">
               <a
