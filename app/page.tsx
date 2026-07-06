@@ -43,7 +43,7 @@ const pillars = [
     desc: "Hands-on sessions on AI and the working stack operators actually use.",
   },
   {
-    title: "Read sharper",
+    title: "Well informed",
     desc: "SEC Reads and a curated library of the sources worth your time.",
   },
   {
@@ -89,104 +89,91 @@ export default function Home() {
     <main className="bg-white text-black font-sans min-h-screen selection:bg-black selection:text-white antialiased">
       <Nav variant="overlay" />
 
-      {/* ============================== HERO ============================== */}
-      <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-6 md:px-12 pt-28 pb-16 md:pt-32 md:pb-24 overflow-hidden">
-        <p className="font-mono text-[10px] md:text-sm uppercase tracking-[0.25em] text-black/50 mb-6 md:mb-10">
-          Sunway University&rsquo;s Entrepreneurship Club
-        </p>
+      {/* HERO SECTION — single viewport */}
+<section className="relative w-full h-[100svh] flex flex-col items-center justify-center text-center px-6 md:px-12 overflow-hidden">
 
-        <h1 className="font-display uppercase leading-[0.86] text-black text-[clamp(2.5rem,12vw,12.5rem)] max-w-[96vw]">
-          {["Sunway", "Entrepreneurs", "Club"].map((word, i) => (
-            <span key={i} className="block overflow-hidden pb-1">
-              <span
-                className="block animate-clip-up"
-                style={{ animationDelay: `${i * 0.12}s` }}
-              >
-                {word}
-              </span>
-            </span>
-          ))}
-        </h1>
+  {/* Tagline */}
+  <p className="font-mono text-[10px] md:text-sm uppercase tracking-[0.25em] text-black/50 mb-4 md:mb-6">
+    Sunway University&rsquo;s Entrepreneurship Club
+  </p>
 
-        <div className="mt-10 md:mt-16 flex flex-col items-center gap-6 md:gap-7">
-          <p className="text-base md:text-lg font-medium text-black/50">
-            Open to every Sunway student.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-4">
-            <a
-              href="#register"
-              className="inline-block bg-black text-white px-12 py-5 font-black text-xs uppercase tracking-[0.2em] hover:bg-black/80 transition-all shadow-xl"
-            >
-              Register
-            </a>
-            <a
-              href={CONTACT}
-              className="inline-block px-6 py-5 text-xs font-black uppercase tracking-[0.2em] text-black/50 hover:text-black transition-colors"
-            >
-              Partner with us →
-            </a>
-          </div>
-        </div>
-      </section>
+  {/* Giant stacked wordmark — fits BOTH width and height, never overflows */}
+  <h1 className="font-black uppercase tracking-tighter leading-[0.82] text-black text-[clamp(2rem,min(10vw,15vh),12rem)] max-w-[96vw]">
+    {["Sunway", "Entrepreneurs", "Club"].map((word, i) => (
+      <span key={i} className="block overflow-hidden pb-1">
+        <span className="block animate-clip-up" style={{ animationDelay: `${i * 0.12}s` }}>
+          {word}
+        </span>
+      </span>
+    ))}
+  </h1>
 
-      {/* ============================== ABOUT ============================== */}
-      <section
-        id="about"
-        className="w-full bg-black text-white px-6 md:px-12 py-16 md:py-32 selection:bg-white selection:text-black"
-      >
-        <div className="max-w-[1600px] mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
-            <div className="md:col-span-4">
-              <div className="md:sticky md:top-24 flex flex-col gap-6 md:gap-8">
-                <h2 className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-white/50 scroll-reveal">
-                  About The Club
-                </h2>
-                <p className="font-serif text-4xl md:text-5xl leading-[1.05] tracking-tight scroll-reveal">
-                  A home for the people who build.
-                </p>
-              </div>
+  {/* CTA cluster */}
+  <div className="mt-8 md:mt-10 flex flex-col items-center gap-5 md:gap-6">
+    <p className="text-base md:text-lg font-medium text-black/50">
+      Open to every Sunway student.
+    </p>
+    <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-4">
+      <a href="#register" className="inline-block bg-black text-white px-12 py-5 font-black text-xs uppercase tracking-[0.2em] hover:bg-black/80 transition-all shadow-xl">
+        Register
+      </a>
+      <Link href="/sponsors" className="inline-block px-6 py-5 text-xs font-black uppercase tracking-[0.2em] text-black/50 hover:text-black transition-colors">
+        Partner with us &rarr;
+      </Link>
+    </div>
+  </div>
+</section>
+
+{/* ============================== ABOUT ============================== */}
+<section
+  id="about"
+  className="w-full min-h-[100svh] bg-black text-white px-6 md:px-12 py-20 md:py-24 flex flex-col justify-between gap-16 selection:bg-white selection:text-black"
+>
+  <div className="max-w-[1400px] mx-auto w-full flex flex-col justify-between flex-1 gap-16">
+
+    {/* Top: About statement */}
+    <div className="flex flex-col gap-6 md:gap-8 max-w-5xl">
+      <h2 className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-white/50 scroll-reveal">
+        About The Club
+      </h2>
+
+      <p className="font-serif text-4xl md:text-6xl lg:text-7xl leading-[1.02] tracking-tight scroll-reveal">
+        A home for the people who build.
+      </p>
+
+      <p className="text-lg md:text-2xl lg:text-[1.75rem] font-medium leading-[1.4] tracking-tight text-white/80 scroll-reveal max-w-4xl">
+        SEC is the community where builders find the support, network, and opportunities to turn ideas into reality. We&rsquo;re building the institution our members will be proud they came from.
+      </p>
+    </div>
+
+    {/* Bottom: What we do */}
+    <div className="w-full">
+      <h2 className="font-display text-5xl md:text-7xl lg:text-8xl uppercase leading-[0.85] text-white mb-8 md:mb-12 scroll-reveal">
+        What we do
+      </h2>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 text-left">
+        {pillars.map((pillar, index) => (
+          <div
+            key={pillar.title}
+            className="scroll-reveal bg-white text-black p-6 md:p-7 flex flex-col h-full"
+            style={{ transitionDelay: `${index * 80}ms` }}
+          >
+            <div className="font-mono text-xs md:text-sm text-black/40 font-bold mb-6 md:mb-8">
+              0{index + 1}
             </div>
-
-            <div className="md:col-span-8 flex flex-col gap-8">
-              <p className="text-lg md:text-2xl lg:text-3xl font-medium leading-relaxed tracking-tight scroll-reveal">
-                SEC is where Sunway&rsquo;s ideas meet the mentorship, network,
-                and access to make them real — where builders become operators.
-                We&rsquo;re building the institution its members will be proud
-                they came from.
-              </p>
-            </div>
+            <h3 className="font-black text-lg md:text-xl uppercase tracking-tighter leading-[0.95] mb-3">
+              {pillar.title}
+            </h3>
+            <p className="font-medium text-black/70 text-sm leading-relaxed mt-auto">
+              {pillar.desc}
+            </p>
           </div>
-
-          {/* WHAT WE DO */}
-          <div className="w-full mt-20 md:mt-48">
-            <h2 className="font-display text-[4rem] md:text-[8rem] lg:text-[11rem] uppercase leading-[0.85] text-white mb-12 md:mb-24 scroll-reveal">
-              What
-              <br />
-              we do
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-              {pillars.map((pillar, index) => (
-                <div
-                  key={pillar.title}
-                  className="scroll-reveal bg-white text-black p-8 flex flex-col h-full hover:scale-[1.02] transition-transform duration-300"
-                  style={{ transitionDelay: `${index * 80}ms` }}
-                >
-                  <div className="font-mono text-sm text-black/40 font-bold mb-8">
-                    0{index + 1}
-                  </div>
-                  <h3 className="font-black text-2xl uppercase tracking-tighter leading-[0.9] mb-4">
-                    {pillar.title}
-                  </h3>
-                  <p className="font-medium text-black/80 text-sm leading-relaxed mt-auto">
-                    {pillar.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* ========================= QUOTES MARQUEE ========================= */}
       <section className="w-full py-20 md:py-48 bg-white overflow-hidden border-t border-black/10">
