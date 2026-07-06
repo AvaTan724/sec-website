@@ -13,7 +13,7 @@ export default function Footer() {
               SEC
             </span>
             <p className="text-white/50 text-base md:text-lg font-medium max-w-md leading-relaxed">
-              The entrepreneurs club at Sunway University. Reestablished 2026.
+              The entrepreneurs club at Sunway University
             </p>
           </div>
 

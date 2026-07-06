@@ -92,7 +92,7 @@ export default function Home() {
       {/* ============================== HERO ============================== */}
       <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-6 md:px-12 pt-28 pb-16 md:pt-32 md:pb-24 overflow-hidden">
         <p className="font-mono text-[10px] md:text-sm uppercase tracking-[0.25em] text-black/50 mb-6 md:mb-10">
-          Sunway University&rsquo;s Entrepreneurship Club · Reestablished 2026
+          Sunway University&rsquo;s Entrepreneurship Club
         </p>
 
         <h1 className="font-display uppercase leading-[0.86] text-black text-[clamp(2.5rem,12vw,12.5rem)] max-w-[96vw]">
