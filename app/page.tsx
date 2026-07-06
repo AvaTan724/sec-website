@@ -144,9 +144,10 @@ export default function Home() {
       </section>
 
       {/* ============================== ABOUT ============================== */}
+      {/* Standardized Padding: py-24 md:py-32 */}
       <section
         id="about"
-        className="w-full min-h-[100svh] bg-black text-white px-6 md:px-12 py-20 md:py-24 flex flex-col justify-between gap-16 selection:bg-white selection:text-black"
+        className="w-full min-h-[100svh] bg-black text-white px-6 md:px-12 py-24 md:py-32 flex flex-col justify-between gap-16 selection:bg-white selection:text-black"
       >
         <div className="max-w-[1400px] mx-auto w-full flex flex-col justify-between flex-1 gap-16">
           <div className="flex flex-col gap-6 md:gap-8 max-w-5xl">
@@ -188,10 +189,10 @@ export default function Home() {
         </div>
       </section>
 
-{/* ===================== RANDOMIZED MARQUEE QUOTES ===================== */}
-      <section className="w-full py-20 md:py-32 bg-[#fcfcfc] overflow-hidden border-t border-black/10 flex flex-col gap-12 md:gap-16 selection:bg-black selection:text-white">
+      {/* ===================== RANDOMIZED MARQUEE QUOTES ===================== */}
+      {/* Standardized Padding: py-24 md:py-32 */}
+      <section className="w-full py-24 md:py-32 bg-[#fcfcfc] overflow-hidden border-t border-black/10 flex flex-col gap-12 md:gap-16 selection:bg-black selection:text-white">
         
-        {/* TITLE SECTION (ABOVE MARQUEES) */}
         <div className="px-6 md:px-12 max-w-[1600px] mx-auto w-full">
           <h2 className="font-display uppercase text-black leading-[0.85]">
             <span className="block text-3xl md:text-5xl lg:text-6xl mb-2 tracking-tighter">Words We</span>
@@ -201,10 +202,8 @@ export default function Home() {
           </h2>
         </div>
 
-        {/* MARQUEE TRACKS CONTAINER */}
         <div className="flex flex-col gap-8 md:gap-12 py-4">
           
-          {/* TRACK 1 (Scrolls Left) */}
           <div className="relative w-full overflow-hidden flex items-center">
             <div className="marquee-track marquee-left-1 gap-6 md:gap-10 px-4">
               {[...track1Quotes, ...track1Quotes].map((quote, index) => (
@@ -223,7 +222,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* TRACK 2 (Scrolls Right) */}
           <div className="relative w-full overflow-hidden flex items-center">
             <div className="marquee-track marquee-right gap-6 md:gap-10 px-4" style={{ transform: 'translateX(-50%)' }}>
               {[...track2Quotes, ...track2Quotes].map((quote, index) => (
@@ -242,7 +240,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* TRACK 3 (Scrolls Left) */}
           <div className="relative w-full overflow-hidden flex items-center">
             <div className="marquee-track marquee-left-2 gap-6 md:gap-10 px-4">
               {[...track3Quotes, ...track3Quotes].map((quote, index) => (
@@ -265,7 +262,8 @@ export default function Home() {
       </section>
 
       {/* ========================== PARTNER BAND ========================== */}
-      <section className="w-full bg-black text-white px-6 md:px-12 py-16 md:py-32 selection:bg-white selection:text-black">
+      {/* Standardized Padding: py-24 md:py-32 */}
+      <section className="w-full bg-black text-white px-6 md:px-12 py-24 md:py-32 selection:bg-white selection:text-black">
         <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start">
           <div className="md:col-span-7 flex flex-col gap-8">
             <h2 className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-white/50 scroll-reveal">
@@ -306,9 +304,10 @@ export default function Home() {
       </section>
 
       {/* =========================== REGISTER =========================== */}
+      {/* Standardized Padding: py-24 md:py-32 */}
       <section
         id="register"
-        className="w-full bg-[#050505] text-white py-20 md:py-40 border-t border-white/10 selection:bg-white selection:text-black"
+        className="w-full bg-[#050505] text-white py-24 md:py-32 border-t border-white/10 selection:bg-white selection:text-black"
       >
         <div className="max-w-4xl mx-auto px-6 md:px-12 flex flex-col items-center text-center">
           <h2 className="font-serif text-4xl md:text-6xl leading-[1.1] mb-6 text-white">

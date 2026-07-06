@@ -8,7 +8,7 @@ export const revalidate = 0;
 export const metadata = {
   title: 'Podcast — SEC',
   description:
-    'Curated episodes worth a builder\u2019s time — watched, noted, and picked by SEC.',
+    'Curated episodes worth a builder’s time — watched, noted, and picked by SEC.',
 };
 
 export default async function EpisodesDirectory() {
@@ -20,64 +20,88 @@ export default async function EpisodesDirectory() {
   const hasEpisodes = !!episodes && episodes.length > 0;
 
   return (
-    <main className="bg-white text-black font-sans min-h-screen selection:bg-black selection:text-white antialiased pb-24">
+    <main className="bg-white text-black font-sans min-h-screen selection:bg-black selection:text-white antialiased pb-32">
       <Nav />
 
-      <section className="max-w-5xl mx-auto px-6 mt-12 md:mt-16 mb-12 md:mb-16">
-        <h1 className="font-display text-6xl md:text-8xl uppercase text-black leading-[0.85]">
-          The Archive
-        </h1>
-        <p className="mt-6 text-base md:text-lg font-medium text-black/50 max-w-2xl">
-          Episodes worth a builder&rsquo;s time — watched, noted, and picked by
-          SEC. The shows belong to their creators; the curation is ours.
-        </p>
-      </section>
-
-      <section className="max-w-5xl mx-auto px-6">
-        <h2 className="text-[11px] font-black tracking-[0.25em] uppercase text-black/40 mb-6 border-b-2 border-black pb-2">
-          All Picks
-        </h2>
-
-        {!hasEpisodes && (
-          <p className="py-16 text-base font-medium text-black/40">
-            First picks are being written up now.
+      <div className="max-w-[1400px] mx-auto px-6 mt-20 md:mt-32">
+        
+        {/* HEADER SECTION */}
+        <section className="mb-16 md:mb-24 border-b-[3px] border-black pb-8 md:pb-12">
+          <p className="font-mono text-[10px] md:text-xs uppercase tracking-[0.25em] text-black/50 mb-6">
+            SEC Intelligence
           </p>
-        )}
+          <h1 className="text-[5rem] md:text-[9rem] lg:text-[11rem] font-black uppercase tracking-tighter leading-[0.75] text-black mb-8">
+            THE<br/>ARCHIVE
+          </h1>
+          <p className="text-lg md:text-2xl font-medium text-black/70 max-w-3xl leading-snug tracking-tight">
+            Episodes worth a builder&rsquo;s time — watched, noted, and picked by
+            SEC. The shows belong to their creators; the curation is ours.
+          </p>
+        </section>
 
-        <div className="flex flex-col">
-          {hasEpisodes &&
-            episodes.map((episode) => {
-              const dateObj = new Date(episode.created_at);
-              const formattedDate = dateObj.toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              });
+        {/* EPISODE LIST SECTION */}
+        <section>
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-xs md:text-sm font-black tracking-[0.25em] uppercase text-black">
+              All Picks
+            </h2>
+            <span className="text-[10px] font-mono tracking-widest uppercase text-black/40">
+              {episodes?.length || 0} Entries
+            </span>
+          </div>
 
-              return (
-                <Link
-                  href={`/episodes/${episode.id}`}
-                  key={episode.id}
-                  className="group flex flex-col md:flex-row justify-between md:items-baseline py-6 border-b border-black/10 hover:bg-black/[0.03] px-2 transition-colors"
-                >
-                  <span className="max-w-3xl pr-4 mb-2 md:mb-0">
-                    <span className="block text-xl md:text-3xl font-black text-black/80 group-hover:text-black transition-colors tracking-tight uppercase">
-                      {episode.title}
-                    </span>
-                    {episode.source_show && (
-                      <span className="block font-mono text-[10px] uppercase tracking-widest text-black/40 mt-1.5">
-                        {episode.source_show}
+          {!hasEpisodes && (
+            <div className="py-24 border-t-2 border-black/10 border-b-2 text-center bg-gray-50/50">
+              <p className="text-lg md:text-xl font-medium text-black/40 tracking-tight">
+                First picks are being written up now.
+              </p>
+            </div>
+          )}
+
+          <div className="flex flex-col border-t-2 border-black/10">
+            {hasEpisodes &&
+              episodes.map((episode) => {
+                const dateObj = new Date(episode.created_at);
+                const formattedDate = dateObj.toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                });
+
+                return (
+                  <Link
+                    href={`/episodes/${episode.id}`}
+                    key={episode.id}
+                    className="group flex flex-col md:flex-row justify-between items-start md:items-center py-8 md:py-12 border-b-2 border-black/10 hover:border-black transition-all duration-300"
+                  >
+                    {/* Left Side: Title & Show */}
+                    <div className="max-w-4xl pr-4 mb-4 md:mb-0">
+                      <h3 className="text-3xl md:text-5xl lg:text-6xl font-black text-black/70 group-hover:text-black transition-colors tracking-tighter uppercase leading-[0.9]">
+                        {episode.title}
+                      </h3>
+                      {episode.source_show && (
+                        <span className="inline-block mt-4 md:mt-6 px-3 py-1 bg-gray-100 text-[10px] md:text-xs font-bold uppercase tracking-widest text-black/60 group-hover:bg-black group-hover:text-white transition-colors">
+                          {episode.source_show}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Right Side: Date & Arrow */}
+                    <div className="flex items-center gap-6 md:gap-8 md:text-right mt-2 md:mt-0">
+                      <span className="text-xs md:text-sm font-bold text-black/40 group-hover:text-black/80 transition-colors uppercase tracking-[0.2em] whitespace-nowrap">
+                        {formattedDate}
                       </span>
-                    )}
-                  </span>
-                  <span className="text-[11px] font-bold text-black/40 group-hover:text-black/70 transition-colors uppercase tracking-widest whitespace-nowrap">
-                    {formattedDate}
-                  </span>
-                </Link>
-              );
-            })}
-        </div>
-      </section>
+                      <span className="hidden md:block text-3xl font-light opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                        →
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
+          </div>
+        </section>
+
+      </div>
     </main>
   );
 }
