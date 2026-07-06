@@ -1,18 +1,17 @@
 // components/Nav.tsx
-'use client';
+"use client";
 
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
 
 // Final page map: About · Team · News · Podcast + Register CTA.
-// Events stays commented until the first booking (see below).
+// Events stays commented until the first booking.
 const LINKS: { label: string; href: string; match?: string[] }[] = [
   { label: 'About', href: '/#about' },
   { label: 'Team', href: '/team', match: ['/team'] },
   { label: 'News', href: '/news', match: ['/news'] },
   { label: 'Podcast', href: '/episodes', match: ['/episodes'] },
-  // Uncomment the day the first speaker is booked — not before:
   // { label: 'Events', href: '/events', match: ['/events'] },
 ];
 
@@ -21,8 +20,11 @@ const CTA = { label: 'Register', href: '/#register' };
 export default function Nav({ variant = 'bar' }: { variant?: 'bar' | 'overlay' }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  
+  // 1. Reference for detecting outside clicks
+  const navRef = useRef<HTMLDivElement>(null);
 
-  // Lock body scroll while the mobile menu is open.
+  // 2. Lock body scroll while the mobile menu is open
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => {
@@ -30,11 +32,24 @@ export default function Nav({ variant = 'bar' }: { variant?: 'bar' | 'overlay' }
     };
   }, [open]);
 
-  // Close the menu on route change (hash links on the same page won't
-  // change pathname, so those close via onClick below).
+  // 3. Close the menu on route change
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  // 4. Close the menu when clicking outside of the nav component
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+    
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const wrap =
     variant === 'overlay'
@@ -42,14 +57,19 @@ export default function Nav({ variant = 'bar' }: { variant?: 'bar' | 'overlay' }
       : 'w-full py-6 md:py-8 px-6 md:px-12 flex justify-between items-center border-b border-black/5';
 
   return (
-    <>
+    <div ref={navRef}>
       <header className={wrap}>
+        {/* LOGO: Replaced text with favicon */}
         <Link
           href="/"
           onClick={() => setOpen(false)}
-          className="font-black text-xl md:text-2xl tracking-tighter leading-none text-black hover:opacity-60 transition-opacity relative z-[70]"
+          className="relative z-[70] transition-transform hover:scale-105 duration-300"
         >
-          SEC
+          <img 
+            src="/favicon.ico" 
+            alt="Sunway Entrepreneurs Club Logo" 
+            className="w-30 h-30 md:w-20 md:h-20 object-contain" 
+          />
         </Link>
 
         {/* Desktop */}
@@ -90,7 +110,7 @@ export default function Nav({ variant = 'bar' }: { variant?: 'bar' | 'overlay' }
         </button>
       </header>
 
-      {/* Mobile full-screen menu — black sheet, giant type, same design language as the wordmark */}
+      {/* Mobile full-screen menu */}
       <div
         className={`md:hidden fixed inset-0 z-[60] bg-black text-white flex flex-col justify-between px-6 pt-28 pb-10 transition-opacity duration-300 ${
           open ? 'opacity-100' : 'opacity-0 pointer-events-none'
@@ -123,6 +143,6 @@ export default function Nav({ variant = 'bar' }: { variant?: 'bar' | 'overlay' }
           </a>
         </div>
       </div>
-    </>
+    </div>
   );
 }
